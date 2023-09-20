@@ -21,11 +21,11 @@ const Menu = () => {
                                     Manutenções
                                 </a>
                                 <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
-                                    <li><NavLink className="dropdown-item" exact="true" to="alerts">Categorias</NavLink></li>      
-                                    <li><NavLink className="dropdown-item" exact="true" to="maliciousWebsites">Produtos</NavLink></li>
-                                    <li><NavLink className="dropdown-item" exact="true" to="maliciousProcesses">Produtos</NavLink></li>
-                                    <li><NavLink className="dropdown-item" exact="true" to="maliciousPorts">Produtos</NavLink></li>
-                                    <li><NavLink className="dropdown-item" exact="true" to="badLanguages">Produtos</NavLink></li>                                                                                                      
+                                    <li><NavLink className="dropdown-item" exact="true" to="alerts">Alerts</NavLink></li>      
+                                    <li><NavLink className="dropdown-item" exact="true" to="maliciousWebsites">Sites</NavLink></li>
+                                    <li><NavLink className="dropdown-item" exact="true" to="maliciousProcesses">Processes</NavLink></li>
+                                    <li><NavLink className="dropdown-item" exact="true" to="maliciousPorts">Ports</NavLink></li>
+                                    <li><NavLink className="dropdown-item" exact="true" to="badLanguages">Languages</NavLink></li>                                                                                                      
                                 </ul>
                             </li>
                         </ul>
