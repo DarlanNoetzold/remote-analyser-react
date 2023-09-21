@@ -11,7 +11,7 @@ function BadLanguage(){
     const [alerta, setAlerta] = useState({status : "", message : ""});
     const [listaObjetos, setListaObjetos] = useState([]);
     const [editar, setEditar] = useState(false);
-    const [objeto, setObjeto] = useState({codigo : "", nome : ""});
+    const [objeto, setObjeto] = useState({id : "", word : ""});
     const [carregando, setCarregando] = useState(false);
 
     const novoObjeto = () => {
