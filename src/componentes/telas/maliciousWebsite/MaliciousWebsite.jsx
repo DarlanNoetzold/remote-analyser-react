@@ -11,13 +11,13 @@ function MaliciousWebsite(){
     const [alerta, setAlerta] = useState({status : "", message : ""});
     const [listaObjetos, setListaObjetos] = useState([]);
     const [editar, setEditar] = useState(false);
-    const [objeto, setObjeto] = useState({id : 0, url : ""});
+    const [objeto, setObjeto] = useState({url : ""});
     const [carregando, setCarregando] = useState(false);
 
     const novoObjeto = () => {
         setEditar(false);
         setAlerta({status : "", message : ""});
-        setObjeto({id : 0, url : ""});
+        setObjeto({url : ""});
     }
 
     const editarObjeto = async codigo => {
