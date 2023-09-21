@@ -1,40 +1,54 @@
 
 const getToken = async () => {
-    const loginData = {
-      login: "string",
-      password: "string",
-    };
-  
-    const requestOptions = {
-      method: "POST",
-      headers: {
-        'Content-Type': 'application/json',
-        'User-Agent': 'PostmanRuntime/7.29.2',
-        'Accept': '*/*'
-      },
-      body: JSON.stringify(loginData),
-    };
-  
-    const response = await fetch('http://localhost:8091/login', requestOptions);
-  
+  const username = "admin";
+  const password = "admin";
+  const tokenEndpoint = "http://localhost:8180/realms/quarkus1/protocol/openid-connect/token";
+
+  const authHeader = btoa("backend-service:secret");
+  const formData = new URLSearchParams();
+  formData.append("username", username);
+  formData.append("password", password);
+  formData.append("grant_type", "password");
+
+  const requestOptions = {
+    method: "POST",
+    headers: {
+      "Authorization": `Basic ${authHeader}`,
+      "Content-Type": "application/x-www-form-urlencoded",
+    },
+    body: formData.toString(),
+  };
+
+  try {
+    const response = await fetch(tokenEndpoint, requestOptions);
+    console.log(response);
     if (!response.ok) {
       throw new Error('Falha ao obter o token de autenticação.');
     }
-  
-    const data = await response.json();
-    return data.token; // Supondo que o token seja retornado como data.token
-  };
 
-const API_BASE_URL = 'http://localhost:8091'; // Altere de acordo com o seu ambiente
+    const responseBody = await response.text();
+    const responseJson = JSON.parse(responseBody);
+    const accessToken = responseJson.access_token;
+    return accessToken;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+};
+
+
+const API_BASE_URL = 'http://localhost:9000'; // Altere de acordo com o seu ambiente
 
 // Função para fazer uma requisição autenticada
 const authenticatedRequest = async (url, method, body = null) => {
-  const token = getToken(); // Obtenha o token de autenticação do estado ou de onde quer que esteja armazenado
+  const token = await getToken(); // Obtenha o token de autenticação do estado ou de onde quer que esteja armazenado
 
   const headers = {
     'Content-Type': 'application/json',
     Authorization: `Bearer ${token}`,
   };
+
+  console.log(headers);
 
   const options = {
     method,
@@ -71,7 +85,7 @@ export const addAlertAPI = async (alertData) => {
 };
 
 export const getAllAlertsAPI = async () => {
-  return authenticatedRequest('/alert', 'GET');
+  return authenticatedRequest('/alert?page=1&size=10&sortBy=id', 'GET');
 };
 
 export const getAlertByIdAPI = async (id) => {
@@ -101,7 +115,7 @@ export const addMaliciousWebsiteAPI = async (websiteData) => {
 };
 
 export const getAllMaliciousWebsitesAPI = async () => {
-  return authenticatedRequest('/website', 'GET');
+  return authenticatedRequest('/website?page=1&size=10&sortBy=id', 'GET');
 };
 
 export const getMaliciousWebsiteByIdAPI = async (id) => {
@@ -112,26 +126,13 @@ export const removeMaliciousWebsiteByIdAPI = async (id) => {
   return authenticatedRequest(`/website/${id}`, 'DELETE');
 };
 
-// Funções CRUD para User
-export const addUserAPI = async (userData) => {
-  return authenticatedRequest('/user/save', 'POST', userData);
-};
-
-export const validateUserPasswordAPI = async () => {
-  return authenticatedRequest('/user/validatePass', 'GET');
-};
-
-export const getAllUsersAPI = async () => {
-  return authenticatedRequest('/user/listAll', 'GET');
-};
-
 // Funções CRUD para Malicious Process
 export const addMaliciousProcessAPI = async (processData) => {
   return authenticatedRequest('/process', 'POST', processData);
 };
 
 export const getAllMaliciousProcessesAPI = async () => {
-  return authenticatedRequest('/process', 'GET');
+  return authenticatedRequest('/process?page=1&size=10&sortBy=id', 'GET');
 };
 
 export const getMaliciousProcessByIdAPI = async (id) => {
@@ -148,7 +149,7 @@ export const addMaliciousPortAPI = async (portData) => {
 };
 
 export const getAllMaliciousPortsAPI = async () => {
-  return authenticatedRequest('/port', 'GET');
+  return authenticatedRequest('/port?page=1&size=10&sortBy=id', 'GET');
 };
 
 export const getMaliciousPortByIdAPI = async (id) => {
@@ -169,7 +170,7 @@ export const getBadLanguageByIdAPI = async (id) => {
 };
 
 export const getAllBadLanguagesAPI = async () => {
-  return authenticatedRequest('/language', 'GET');
+  return authenticatedRequest('/language?page=1&size=10&sortBy=id', 'GET');
 };
 
 export const removeBadLanguageByIdAPI = async (id) => {
