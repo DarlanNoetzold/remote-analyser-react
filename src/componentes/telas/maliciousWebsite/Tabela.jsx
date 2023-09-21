@@ -1,10 +1,10 @@
 import { useContext } from "react";
-import CategoriaContext from "./CategoriaContext";
+import MaliciousWebsiteContext from "./MaliciousWebsiteContext";
 import Alerta from '../../comuns/Alerta';
 
 function Tabela() {
 
-    const { alerta, listaObjetos, remover, novoObjeto, editarObjeto } = useContext(CategoriaContext);
+    const { alerta, listaObjetos, remover, novoObjeto, editarObjeto } = useContext(MaliciousWebsiteContext);
 
     return (
         <div style={{ padding: '20px' }}>
@@ -30,17 +30,17 @@ function Tabela() {
                             <tr key={objeto.codigo}>
                                 <td align="center">
                                     <button className="btn btn-info"
-                                        onClick={() => editarObjeto(objeto.codigo)}
+                                        onClick={() => editarObjeto(objeto.id)}
                                         data-bs-toggle="modal" data-bs-target="#modalEdicao">
                                         <i className="bi bi-pencil-square"></i>
                                     </button>
                                     <button className="btn btn-danger" title="Remover"
-                                        onClick={() => { remover(objeto.codigo); }}>
+                                        onClick={() => { remover(objeto.id); }}>
                                         <i className="bi bi-trash"></i>
                                     </button>
                                 </td>
-                                <td>{objeto.codigo}</td>
-                                <td>{objeto.nome}</td>
+                                <td>{objeto.id}</td>
+                                <td>{objeto.url}</td>
                             </tr>
                         ))}
                     </tbody>
