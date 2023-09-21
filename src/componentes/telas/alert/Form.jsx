@@ -1,12 +1,12 @@
 import { useContext } from 'react'
 import Alerta from '../../comuns/Alerta';
-import CategoriaContext from './CategoriaContext';
+import AlertContext from './AlertContext';
 import CampoEntrada from '../../comuns/CampoEntrada';
 import Dialogo from '../../comuns/Dialogo';
 
 function Form() {
 
-    const { objeto, handleChange, acaoCadastrar, alerta } = useContext(CategoriaContext);
+    const { objeto, handleChange, acaoCadastrar, alerta } = useContext(AlertContext);
 
     return (
         <Dialogo id="modalEdicao" titulo="Categoria" idformulario="formEdicao"
