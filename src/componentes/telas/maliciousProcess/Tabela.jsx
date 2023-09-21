@@ -1,10 +1,10 @@
 import { useContext } from "react";
-import CategoriaContext from "./CategoriaContext";
+import MaliciousProcessContext from "./MaliciousProcessContext";
 import Alerta from '../../comuns/Alerta';
 
 function Tabela() {
 
-    const { alerta, listaObjetos, remover, novoObjeto, editarObjeto } = useContext(CategoriaContext);
+    const { alerta, listaObjetos, remover, novoObjeto, editarObjeto } = useContext(MaliciousProcessContext);
 
     return (
         <div style={{ padding: '20px' }}>
