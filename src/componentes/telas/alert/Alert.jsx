@@ -11,7 +11,7 @@ function Alert(){
     const [alerta, setAlerta] = useState({status : "", message : ""});
     const [listaObjetos, setListaObjetos] = useState([]);
     const [editar, setEditar] = useState(false);
-    const [objeto, setObjeto] = useState({codigo : "", nome : ""});
+    const [objeto, setObjeto] = useState({id : "", nome : ""});
     const [carregando, setCarregando] = useState(false);
 
     const novoObjeto = () => {
