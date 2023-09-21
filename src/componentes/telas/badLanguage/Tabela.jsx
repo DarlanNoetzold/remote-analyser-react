@@ -1,10 +1,10 @@
 import { useContext } from "react";
-import CategoriaContext from "./CategoriaContext";
+import BadLanguageContext from "./BadLanguageContext";
 import Alerta from '../../comuns/Alerta';
 
 function Tabela() {
 
-    const { alerta, listaObjetos, remover, novoObjeto, editarObjeto } = useContext(CategoriaContext);
+    const { alerta, listaObjetos, remover, novoObjeto, editarObjeto } = useContext(BadLanguageContext);
 
     return (
         <div style={{ padding: '20px' }}>
