@@ -12,13 +12,8 @@ function Form() {
         <Dialogo id="modalEdicao" titulo="MaliciousProcess" idformulario="formEdicao"
         acaoCadastrar={acaoCadastrar}>
             <Alerta alerta={alerta} />
-            <CampoEntrada id="txtCodigo" label="Código" tipo="number"
-                name="codigo" value={objeto.id}
-                handlechange={handleChange}
-                requerido={false} readonly={true}
-                maximocaracteres={5} />
             <CampoEntrada id="txtNome" label="nameExe" tipo="text"
-                name="nonameExeme" value={objeto.nameExe}
+                name="nameExe" value={objeto.nameExe}
                 handlechange={handleChange}
                 requerido={true} readonly={false}
                 textovalido="nameExe OK" textoinvalido="Informe o nameExe"
