@@ -11,39 +11,41 @@ function BadLanguage(){
     const [alerta, setAlerta] = useState({status : "", message : ""});
     const [listaObjetos, setListaObjetos] = useState([]);
     const [editar, setEditar] = useState(false);
-    const [objeto, setObjeto] = useState({id : "", word : ""});
+    const [objeto, setObjeto] = useState({word : ""});
     const [carregando, setCarregando] = useState(false);
 
     const novoObjeto = () => {
         setEditar(false);
-        setAlerta({status : "", message : ""});
-        setObjeto({ codigo : 0, nome : ""});
+        setAlerta({ status: "", message: "" });
+        setObjeto({ word: "" });
     }
 
     const editarObjeto = async codigo => {
         setEditar(true);
-        setAlerta({status : "", message : ""});
-        setObjeto( await getBadLanguageByIdAPI(codigo));
-    }    
+        setAlerta({ status: "", message: "" });
+        const objetoAPI = await getAllBadLanguagesAPI(codigo);
+        setObjeto(objetoAPI);
+    }
 
     const acaoCadastrar = async e => {
         e.preventDefault();
+        if (!objeto.word) {
+            setAlerta({ status: "Error", message: "A word deve ser preenchida" });
+            return;
+        }
         const metodo = editar ? "PUT" : "POST";
         try {
             let retornoAPI = await addBadLanguageAPI(objeto, metodo);
-            setAlerta({status : retornoAPI.status, 
-            message : retornoAPI.message});
-            setObjeto(retornoAPI.objeto);
-            if (!editar){
+            setAlerta({ status: "Created", message: retornoAPI.word });
+            setObjeto(retornoAPI);
+            if (!editar) {
                 setEditar(true);
             }
-        } catch (err){
-            console.log(err)
+        } catch (err) {
+            console.log(err);
         }
         recuperaBadLanguages();
     }
-
-
 
     const recuperaBadLanguages = async () => {
         setCarregando(true);
