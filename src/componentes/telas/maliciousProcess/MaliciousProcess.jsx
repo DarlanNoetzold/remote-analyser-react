@@ -55,7 +55,13 @@ function MaliciousProcess(){
 
     const recuperaMaliciousProcesses = async () => {
         setCarregando(true);
-        setListaObjetos( await getAllMaliciousProcessesAPI());
+        let retornoAPI = await getAllMaliciousProcessesAPI();
+        if(retornoAPI == null){
+            setAlerta({ status: "No Content", message: "Não existem processos cadastradas" });
+        }else{
+            setListaObjetos(retornoAPI);
+        }
+
         setCarregando(false);
     }
 
