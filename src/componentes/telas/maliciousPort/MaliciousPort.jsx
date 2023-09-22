@@ -11,34 +11,38 @@ function MaliciousPort(){
     const [alerta, setAlerta] = useState({status : "", message : ""});
     const [listaObjetos, setListaObjetos] = useState([]);
     const [editar, setEditar] = useState(false);
-    const [objeto, setObjeto] = useState({id : "", vulnarableBanners : ""});
+    const [objeto, setObjeto] = useState({vulnarableBanners : ""});
     const [carregando, setCarregando] = useState(false);
 
     const novoObjeto = () => {
         setEditar(false);
-        setAlerta({status : "", message : ""});
-        setObjeto({ codigo : 0, nome : ""});
+        setAlerta({ status: "", message: "" });
+        setObjeto({ vulnarableBanners: "" });
     }
 
     const editarObjeto = async codigo => {
         setEditar(true);
-        setAlerta({status : "", message : ""});
-        setObjeto( await getAllMaliciousPortsAPI(codigo));
-    }    
+        setAlerta({ status: "", message: "" });
+        const objetoAPI = await getAllMaliciousPortsAPI(codigo);
+        setObjeto(objetoAPI);
+    }
 
     const acaoCadastrar = async e => {
         e.preventDefault();
+        if (!objeto.vulnarableBanners) {
+            setAlerta({ status: "Error", message: "A vulnarableBanners deve ser preenchida" });
+            return;
+        }
         const metodo = editar ? "PUT" : "POST";
         try {
             let retornoAPI = await addMaliciousPortAPI(objeto, metodo);
-            setAlerta({status : retornoAPI.status, 
-            message : retornoAPI.message});
-            setObjeto(retornoAPI.objeto);
-            if (!editar){
+            setAlerta({ status: "Created", message: retornoAPI.vulnarableBanners });
+            setObjeto(retornoAPI);
+            if (!editar) {
                 setEditar(true);
             }
-        } catch (err){
-            console.log(err)
+        } catch (err) {
+            console.log(err);
         }
         recuperaMaliciousPorts();
     }
