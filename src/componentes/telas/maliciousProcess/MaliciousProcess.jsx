@@ -11,34 +11,38 @@ function MaliciousProcess(){
     const [alerta, setAlerta] = useState({status : "", message : ""});
     const [listaObjetos, setListaObjetos] = useState([]);
     const [editar, setEditar] = useState(false);
-    const [objeto, setObjeto] = useState({id : "", nameExe : ""});
+    const [objeto, setObjeto] = useState({nameExe : ""});
     const [carregando, setCarregando] = useState(false);
 
     const novoObjeto = () => {
         setEditar(false);
-        setAlerta({status : "", message : ""});
-        setObjeto({ codigo : 0, nome : ""});
+        setAlerta({ status: "", message: "" });
+        setObjeto({ nameExe: "" });
     }
 
     const editarObjeto = async codigo => {
         setEditar(true);
-        setAlerta({status : "", message : ""});
-        setObjeto( await getAllMaliciousProcessesAPI(codigo));
-    }    
+        setAlerta({ status: "", message: "" });
+        const objetoAPI = await getAllMaliciousProcessesAPI(codigo);
+        setObjeto(objetoAPI);
+    }
 
     const acaoCadastrar = async e => {
         e.preventDefault();
+        if (!objeto.url) {
+            setAlerta({ status: "Error", message: "A URL deve ser preenchida" });
+            return;
+        }
         const metodo = editar ? "PUT" : "POST";
         try {
             let retornoAPI = await addMaliciousProcessAPI(objeto, metodo);
-            setAlerta({status : retornoAPI.status, 
-            message : retornoAPI.message});
-            setObjeto(retornoAPI.objeto);
-            if (!editar){
+            setAlerta({ status: "Created", message: retornoAPI.url });
+            setObjeto(retornoAPI);
+            if (!editar) {
                 setEditar(true);
             }
-        } catch (err){
-            console.log(err)
+        } catch (err) {
+            console.log(err);
         }
         recuperaMaliciousProcesses();
     }
