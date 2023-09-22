@@ -8,7 +8,7 @@ function Tabela() {
 
     return (
         <div style={{ padding: '20px' }}>
-            <h1>Categorias</h1>
+            <h1>Websites</h1>
             <Alerta alerta={alerta} />
             <button type="button" className="btn btn-primary"
                 data-bs-toggle="modal" data-bs-target="#modalEdicao"
@@ -21,8 +21,8 @@ function Tabela() {
                     <thead>
                         <tr>
                             <th scope="col" style={{ textAlign: 'center' }}>Ações</th>
-                            <th scope="col">Código</th>
-                            <th scope="col">Nome</th>
+                            <th scope="col">Id</th>
+                            <th scope="col">URL</th>
                         </tr>
                     </thead>
                     <tbody>
