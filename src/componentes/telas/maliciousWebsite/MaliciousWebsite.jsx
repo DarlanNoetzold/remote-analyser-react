@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import MaliciousWebsiteContext from "./MaliciousWebsiteContext";
-import { addMaliciousWebsiteAPI, getAllMaliciousWebsitesAPI, getMaliciousWebsiteByIdAPI, removeMaliciousWebsiteByIdAPI} 
+import { addMaliciousWebsiteAPI, getAllMaliciousWebsitesAPI, getMaliciousWebsiteByIdAPI, removeMaliciousWebsiteByIdAPI, updateMaliciousWebsiteAPI} 
     from '../../../servicos/services';
 import Tabela from "./Tabela";
 import Form from "./Form";
@@ -23,7 +23,7 @@ function MaliciousWebsite(){
     const editarObjeto = async codigo => {
         setEditar(true);
         setAlerta({ status: "", message: "" });
-        const objetoAPI = await getAllMaliciousWebsitesAPI(codigo);
+        const objetoAPI = await getMaliciousWebsiteByIdAPI(codigo);
         setObjeto(objetoAPI);
     }
 
@@ -34,15 +34,22 @@ function MaliciousWebsite(){
             return;
         }
         const metodo = editar ? "PUT" : "POST";
-        try {
-            let retornoAPI = await addMaliciousWebsiteAPI(objeto, metodo);
-            setAlerta({ status: "Created", message: retornoAPI.url });
-            setObjeto(retornoAPI);
-            if (!editar) {
-                setEditar(true);
+        if(editar === true){
+            try {
+                let retornoAPI = await updateMaliciousWebsiteAPI(objeto.id,objeto);
+                setAlerta({ status: "Updated", message: retornoAPI.url });
+                setObjeto(retornoAPI);
+            } catch (err) {
+                console.log(err);
             }
-        } catch (err) {
-            console.log(err);
+        }else{
+            try {
+                let retornoAPI = await addMaliciousWebsiteAPI(objeto, metodo);
+                setAlerta({ status: "Created", message: retornoAPI.url });
+                setObjeto(retornoAPI);
+            } catch (err) {
+                console.log(err);
+            }
         }
         recuperaMaliciousWebsites();
     }

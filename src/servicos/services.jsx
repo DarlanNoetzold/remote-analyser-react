@@ -127,6 +127,10 @@ export const removeMaliciousWebsiteByIdAPI = async (id) => {
   return authenticatedRequest(`/website/${id}`, 'DELETE');
 };
 
+export const updateMaliciousWebsiteAPI = async (id, updatedWebsiteData) => {
+  return authenticatedRequest(`/website/${id}`, 'PUT', updatedWebsiteData);
+};
+
 // Funções CRUD para Malicious Process
 export const addMaliciousProcessAPI = async (processData) => {
   return authenticatedRequest('/process', 'POST', processData);
@@ -142,6 +146,10 @@ export const getMaliciousProcessByIdAPI = async (id) => {
 
 export const removeMaliciousProcessByIdAPI = async (id) => {
   return authenticatedRequest(`/process/${id}`, 'DELETE');
+};
+
+export const updateMaliciousProcessAPI = async (id, updatedProcessData) => {
+  return authenticatedRequest(`/process/${id}`, 'PUT', updatedProcessData);
 };
 
 // Funções CRUD para Malicious Port
@@ -161,6 +169,10 @@ export const removeMaliciousPortByIdAPI = async (id) => {
   return authenticatedRequest(`/port/${id}`, 'DELETE');
 };
 
+export const updateMaliciousPortAPI = async (id, updatedPortData) => {
+  return authenticatedRequest(`/port/${id}`, 'PUT', updatedPortData);
+};
+
 // Funções CRUD para Bad Language
 export const addBadLanguageAPI = async (languageData) => {
   return authenticatedRequest('/language', 'POST', languageData);
@@ -176,4 +188,8 @@ export const getAllBadLanguagesAPI = async () => {
 
 export const removeBadLanguageByIdAPI = async (id) => {
   return authenticatedRequest(`/language/${id}`, 'DELETE');
+};
+
+export const updateBadLanguageAPI = async (id, updatedLanguageData) => {
+  return authenticatedRequest(`/language/${id}`, 'PUT', updatedLanguageData);
 };

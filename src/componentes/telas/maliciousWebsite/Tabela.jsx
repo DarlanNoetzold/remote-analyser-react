@@ -27,10 +27,10 @@ function Tabela() {
                     </thead>
                     <tbody>
                         {listaObjetos.map(objeto => (
-                            <tr key={objeto.codigo}>
+                            <tr key={objeto.id}>
                                 <td align="center">
                                     <button className="btn btn-info"
-                                        onClick={() => editarObjeto(objeto.id)}
+                                        onClick={() =>{ editarObjeto(objeto.id) }}
                                         data-bs-toggle="modal" data-bs-target="#modalEdicao">
                                         <i className="bi bi-pencil-square"></i>
                                     </button>
