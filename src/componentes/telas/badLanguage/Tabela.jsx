@@ -15,32 +15,32 @@ function Tabela() {
                 onClick={() => novoObjeto()}>
                 Novo <i className="bi bi-file-earmark-plus"></i>
             </button>
-            {listaObjetos.length === 0 && <h1>Nenhuma categoria encontrada</h1>}
+            {listaObjetos.length === 0 && <h1>Nenhuma palavra encontrada</h1>}
             {listaObjetos.length > 0 && (
                 <table className="table">
                     <thead>
                         <tr>
                             <th scope="col" style={{ textAlign: 'center' }}>Ações</th>
-                            <th scope="col">Código</th>
-                            <th scope="col">Nome</th>
+                            <th scope="col">Id</th>
+                            <th scope="col">Word</th>
                         </tr>
                     </thead>
                     <tbody>
                         {listaObjetos.map(objeto => (
-                            <tr key={objeto.codigo}>
+                            <tr key={objeto.id}>
                                 <td align="center">
                                     <button className="btn btn-info"
-                                        onClick={() => editarObjeto(objeto.codigo)}
+                                        onClick={() => editarObjeto(objeto.id)}
                                         data-bs-toggle="modal" data-bs-target="#modalEdicao">
                                         <i className="bi bi-pencil-square"></i>
                                     </button>
                                     <button className="btn btn-danger" title="Remover"
-                                        onClick={() => { remover(objeto.codigo); }}>
+                                        onClick={() => { remover(objeto.id); }}>
                                         <i className="bi bi-trash"></i>
                                     </button>
                                 </td>
-                                <td>{objeto.codigo}</td>
-                                <td>{objeto.nome}</td>
+                                <td>{objeto.id}</td>
+                                <td>{objeto.word}</td>
                             </tr>
                         ))}
                     </tbody>
