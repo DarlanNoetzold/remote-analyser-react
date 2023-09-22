@@ -60,7 +60,11 @@ const authenticatedRequest = async (url, method, body = null) => {
   }
 
   const response = await fetch(`${API_BASE_URL}${url}`, options);
-  console.log(response);
+  
+  if (response.status === 204) {
+    return null;
+  }
+
   const data = await response.json();
 
   if (!response.ok) {
