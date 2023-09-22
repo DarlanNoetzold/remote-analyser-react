@@ -8,14 +8,14 @@ function Tabela() {
 
     return (
         <div style={{ padding: '20px' }}>
-            <h1>Categorias</h1>
+            <h1>Ports</h1>
             <Alerta alerta={alerta} />
             <button type="button" className="btn btn-primary"
                 data-bs-toggle="modal" data-bs-target="#modalEdicao"
                 onClick={() => novoObjeto()}>
                 Novo <i className="bi bi-file-earmark-plus"></i>
             </button>
-            {listaObjetos.length === 0 && <h1>Nenhuma categoria encontrada</h1>}
+            {listaObjetos.length === 0 && <h1>Nenhum vulnarableBanners encontrada</h1>}
             {listaObjetos.length > 0 && (
                 <table className="table">
                     <thead>
@@ -27,7 +27,7 @@ function Tabela() {
                     </thead>
                     <tbody>
                         {listaObjetos.map(objeto => (
-                            <tr key={objeto.codigo}>
+                            <tr key={objeto.id}>
                                 <td align="center">
                                     <button className="btn btn-info"
                                         onClick={() => editarObjeto(objeto.id)}
