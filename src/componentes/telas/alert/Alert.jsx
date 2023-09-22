@@ -16,29 +16,33 @@ function Alert(){
 
     const novoObjeto = () => {
         setEditar(false);
-        setAlerta({status : "", message : ""});
-        setObjeto({ codigo : 0, nome : ""});
+        setAlerta({ status: "", message: "" });
+        setObjeto({ url: "" });
     }
 
     const editarObjeto = async codigo => {
         setEditar(true);
-        setAlerta({status : "", message : ""});
-        setObjeto( await getAlertByIdAPI(codigo));
-    }    
+        setAlerta({ status: "", message: "" });
+        const objetoAPI = await getAllAlertsAPI(codigo);
+        setObjeto(objetoAPI);
+    }
 
     const acaoCadastrar = async e => {
         e.preventDefault();
+        if (!objeto.url) {
+            setAlerta({ status: "Error", message: "A URL deve ser preenchida" });
+            return;
+        }
         const metodo = editar ? "PUT" : "POST";
         try {
             let retornoAPI = await addAlertAPI(objeto, metodo);
-            setAlerta({status : retornoAPI.status, 
-            message : retornoAPI.message});
-            setObjeto(retornoAPI.objeto);
-            if (!editar){
+            setAlerta({ status: "Created", message: retornoAPI.url });
+            setObjeto(retornoAPI);
+            if (!editar) {
                 setEditar(true);
             }
-        } catch (err){
-            console.log(err)
+        } catch (err) {
+            console.log(err);
         }
         recuperaAlerts();
     }
