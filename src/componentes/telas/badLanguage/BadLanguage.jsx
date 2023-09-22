@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import BadLanguageContext from "./BadLanguageContext";
-import { addBadLanguageAPI, getAllBadLanguagesAPI, getBadLanguageByIdAPI, removeBadLanguageByIdAPI} 
+import { addBadLanguageAPI, getAllBadLanguagesAPI, getBadLanguageByIdAPI, removeBadLanguageByIdAPI, updateBadLanguageAPI} 
     from '../../../servicos/services';
 import Tabela from "./Tabela";
 import Form from "./Form";
@@ -20,10 +20,10 @@ function BadLanguage(){
         setObjeto({ word: "" });
     }
 
-    const editarObjeto = async codigo => {
+    const editarObjeto = async id => {
         setEditar(true);
         setAlerta({ status: "", message: "" });
-        const objetoAPI = await getAllBadLanguagesAPI(codigo);
+        const objetoAPI = await getBadLanguageByIdAPI(id);
         setObjeto(objetoAPI);
     }
 
@@ -33,23 +33,34 @@ function BadLanguage(){
             setAlerta({ status: "Error", message: "A word deve ser preenchida" });
             return;
         }
-        const metodo = editar ? "PUT" : "POST";
-        try {
-            let retornoAPI = await addBadLanguageAPI(objeto, metodo);
-            setAlerta({ status: "Created", message: retornoAPI.word });
-            setObjeto(retornoAPI);
-            if (!editar) {
-                setEditar(true);
+        if(editar === true){
+            try {
+                let retornoAPI = await updateBadLanguageAPI(objeto.id,objeto);
+                setAlerta({ status: "Updated", message: retornoAPI.word });
+                setObjeto(retornoAPI);
+            } catch (err) {
+                console.log(err);
             }
-        } catch (err) {
-            console.log(err);
+        }else{
+            try {
+                let retornoAPI = await addBadLanguageAPI(objeto);
+                setAlerta({ status: "Created", message: retornoAPI.word });
+                setObjeto(retornoAPI);
+            } catch (err) {
+                console.log(err);
+            }
         }
         recuperaBadLanguages();
     }
 
     const recuperaBadLanguages = async () => {
         setCarregando(true);
-        setListaObjetos( await getAllBadLanguagesAPI());
+        let retornoAPI = await getAllBadLanguagesAPI();
+        if(retornoAPI == null){
+            setAlerta({ status: "No Content", message: "Não existem badLanguages cadastradas" });
+        }else{
+            setListaObjetos(retornoAPI);
+        }
         setCarregando(false);
     }
 
