@@ -53,9 +53,9 @@ function BadLanguage(){
         setCarregando(false);
     }
 
-    const remover = async codigo => {
+    const remover = async id => {
         if (window.confirm('Deseja remover este objeto')){
-            let retornoAPI = await removeBadLanguageByIdAPI(codigo);
+            let retornoAPI = await removeBadLanguageByIdAPI(id);
             setAlerta({status : "Removed",
                  message : retornoAPI.word});
                  recuperaBadLanguages();
