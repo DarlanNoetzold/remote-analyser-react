@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import MaliciousProcessContext from "./MaliciousProcessContext";
-import { addMaliciousProcessAPI, getAllMaliciousProcessesAPI, getMaliciousProcessByIdAPI, removeMaliciousProcessByIdAPI} 
+import { addMaliciousProcessAPI, getAllMaliciousProcessesAPI, getMaliciousProcessByIdAPI, removeMaliciousProcessByIdAPI, updateMaliciousProcessAPI} 
     from '../../../servicos/services';
 import Tabela from "./Tabela";
 import Form from "./Form";
@@ -20,34 +20,38 @@ function MaliciousProcess(){
         setObjeto({ nameExe: "" });
     }
 
-    const editarObjeto = async codigo => {
+    const editarObjeto = async id => {
         setEditar(true);
         setAlerta({ status: "", message: "" });
-        const objetoAPI = await getAllMaliciousProcessesAPI(codigo);
+        const objetoAPI = await getMaliciousProcessByIdAPI(id);
         setObjeto(objetoAPI);
     }
 
     const acaoCadastrar = async e => {
         e.preventDefault();
-        if (!objeto.url) {
-            setAlerta({ status: "Error", message: "A URL deve ser preenchida" });
+        if (!objeto.nameExe) {
+            setAlerta({ status: "Error", message: "A nameExe deve ser preenchida" });
             return;
         }
-        const metodo = editar ? "PUT" : "POST";
-        try {
-            let retornoAPI = await addMaliciousProcessAPI(objeto, metodo);
-            setAlerta({ status: "Created", message: retornoAPI.url });
-            setObjeto(retornoAPI);
-            if (!editar) {
-                setEditar(true);
+        if(editar === true){
+            try {
+                let retornoAPI = await updateMaliciousProcessAPI(objeto.id,objeto);
+                setAlerta({ status: "Updated", message: retornoAPI.nameExe });
+                setObjeto(retornoAPI);
+            } catch (err) {
+                console.log(err);
             }
-        } catch (err) {
-            console.log(err);
+        }else{
+            try {
+                let retornoAPI = await addMaliciousProcessAPI(objeto);
+                setAlerta({ status: "Created", message: retornoAPI.nameExe });
+                setObjeto(retornoAPI);
+            } catch (err) {
+                console.log(err);
+            }
         }
         recuperaMaliciousProcesses();
     }
-
-
 
     const recuperaMaliciousProcesses = async () => {
         setCarregando(true);
