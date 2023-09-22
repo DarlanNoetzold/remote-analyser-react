@@ -62,8 +62,8 @@ function MaliciousProcess(){
     const remover = async codigo => {
         if (window.confirm('Deseja remover este objeto')){
             let retornoAPI = await removeMaliciousProcessByIdAPI(codigo);
-            setAlerta({status : retornoAPI.status,
-                 message : retornoAPI.message});
+            setAlerta({status : "Removed",
+                 message : retornoAPI.nameExe});
                  recuperaMaliciousProcesses();
         }
     }
