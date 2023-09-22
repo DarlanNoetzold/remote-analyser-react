@@ -55,13 +55,18 @@ function MaliciousPort(){
 
     const recuperaMaliciousPorts = async () => {
         setCarregando(true);
-        setListaObjetos( await getAllMaliciousPortsAPI());
+        let retornoAPI = await getAllMaliciousPortsAPI();
+        if(retornoAPI == null){
+            setAlerta({ status: "No Content", message: "Não existem ports cadastradas" });
+        }else{
+            setListaObjetos(retornoAPI);
+        }
         setCarregando(false);
     }
 
-    const remover = async codigo => {
+    const remover = async id => {
         if (window.confirm('Deseja remover este objeto')){
-            let retornoAPI = await removeMaliciousPortByIdAPI(codigo);
+            let retornoAPI = await removeMaliciousPortByIdAPI(id);
             setAlerta({status : "Removed",
                  message : retornoAPI.vulnarableBanners});
                  recuperaMaliciousPorts();
