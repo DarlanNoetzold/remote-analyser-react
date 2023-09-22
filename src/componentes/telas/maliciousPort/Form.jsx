@@ -12,11 +12,6 @@ function Form() {
         <Dialogo id="modalEdicao" titulo="MaliciousPort" idformulario="formEdicao"
         acaoCadastrar={acaoCadastrar}>
             <Alerta alerta={alerta} />
-            <CampoEntrada id="txtCodigo" label="Código" tipo="number"
-                name="codigo" value={objeto.id}
-                handlechange={handleChange}
-                requerido={false} readonly={true}
-                maximocaracteres={5} />
             <CampoEntrada id="txtNome" label="vulnarableBanners" tipo="text"
                 name="vulnarableBanners" value={objeto.vulnarableBanners}
                 handlechange={handleChange}
