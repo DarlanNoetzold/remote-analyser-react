@@ -33,7 +33,6 @@ function MaliciousWebsite(){
             setAlerta({ status: "Error", message: "A URL deve ser preenchida" });
             return;
         }
-        const metodo = editar ? "PUT" : "POST";
         if(editar === true){
             try {
                 let retornoAPI = await updateMaliciousWebsiteAPI(objeto.id,objeto);
@@ -44,7 +43,7 @@ function MaliciousWebsite(){
             }
         }else{
             try {
-                let retornoAPI = await addMaliciousWebsiteAPI(objeto, metodo);
+                let retornoAPI = await addMaliciousWebsiteAPI(objeto);
                 setAlerta({ status: "Created", message: retornoAPI.url });
                 setObjeto(retornoAPI);
             } catch (err) {
