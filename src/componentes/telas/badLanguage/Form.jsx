@@ -12,11 +12,6 @@ function Form() {
         <Dialogo id="modalEdicao" titulo="BadLanguage" idformulario="formEdicao"
         acaoCadastrar={acaoCadastrar}>
             <Alerta alerta={alerta} />
-            <CampoEntrada id="txtCodigo" label="Código" tipo="number"
-                name="codigo" value={objeto.id}
-                handlechange={handleChange}
-                requerido={false} readonly={true}
-                maximocaracteres={5} />
             <CampoEntrada id="txtNome" label="word" tipo="text"
                 name="word" value={objeto.word}
                 handlechange={handleChange}
