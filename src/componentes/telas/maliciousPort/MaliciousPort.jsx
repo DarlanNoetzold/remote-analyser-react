@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import MaliciousPortContext from "./MaliciousPortContext";
-import { addMaliciousPortAPI, getAllMaliciousPortsAPI, getMaliciousPortByIdAPI, removeMaliciousPortByIdAPI} 
+import { addMaliciousPortAPI, getAllMaliciousPortsAPI, getMaliciousPortByIdAPI, removeMaliciousPortByIdAPI, updateMaliciousPortAPI} 
     from '../../../servicos/services';
 import Tabela from "./Tabela";
 import Form from "./Form";
@@ -20,10 +20,10 @@ function MaliciousPort(){
         setObjeto({ vulnarableBanners: "" });
     }
 
-    const editarObjeto = async codigo => {
+    const editarObjeto = async id => {
         setEditar(true);
         setAlerta({ status: "", message: "" });
-        const objetoAPI = await getAllMaliciousPortsAPI(codigo);
+        const objetoAPI = await getMaliciousPortByIdAPI(id);
         setObjeto(objetoAPI);
     }
 
@@ -33,21 +33,25 @@ function MaliciousPort(){
             setAlerta({ status: "Error", message: "A vulnarableBanners deve ser preenchida" });
             return;
         }
-        const metodo = editar ? "PUT" : "POST";
-        try {
-            let retornoAPI = await addMaliciousPortAPI(objeto, metodo);
-            setAlerta({ status: "Created", message: retornoAPI.vulnarableBanners });
-            setObjeto(retornoAPI);
-            if (!editar) {
-                setEditar(true);
+        if(editar === true){
+            try {
+                let retornoAPI = await updateMaliciousPortAPI(objeto.id,objeto);
+                setAlerta({ status: "Updated", message: retornoAPI.vulnarableBanners });
+                setObjeto(retornoAPI);
+            } catch (err) {
+                console.log(err);
             }
-        } catch (err) {
-            console.log(err);
+        }else{
+            try {
+                let retornoAPI = await addMaliciousPortAPI(objeto);
+                setAlerta({ status: "Created", message: retornoAPI.vulnarableBanners });
+                setObjeto(retornoAPI);
+            } catch (err) {
+                console.log(err);
+            }
         }
         recuperaMaliciousPorts();
     }
-
-
 
     const recuperaMaliciousPorts = async () => {
         setCarregando(true);
