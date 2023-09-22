@@ -8,7 +8,7 @@ function Tabela() {
 
     return (
         <div style={{ padding: '20px' }}>
-            <h1>Categorias</h1>
+            <h1>Processes</h1>
             <Alerta alerta={alerta} />
             <button type="button" className="btn btn-primary"
                 data-bs-toggle="modal" data-bs-target="#modalEdicao"
@@ -21,26 +21,26 @@ function Tabela() {
                     <thead>
                         <tr>
                             <th scope="col" style={{ textAlign: 'center' }}>Ações</th>
-                            <th scope="col">Código</th>
-                            <th scope="col">Nome</th>
+                            <th scope="col">id</th>
+                            <th scope="col">NameExe</th>
                         </tr>
                     </thead>
                     <tbody>
                         {listaObjetos.map(objeto => (
-                            <tr key={objeto.codigo}>
+                            <tr key={objeto.id}>
                                 <td align="center">
                                     <button className="btn btn-info"
-                                        onClick={() => editarObjeto(objeto.codigo)}
+                                        onClick={() => editarObjeto(objeto.id)}
                                         data-bs-toggle="modal" data-bs-target="#modalEdicao">
                                         <i className="bi bi-pencil-square"></i>
                                     </button>
                                     <button className="btn btn-danger" title="Remover"
-                                        onClick={() => { remover(objeto.codigo); }}>
+                                        onClick={() => { remover(objeto.id); }}>
                                         <i className="bi bi-trash"></i>
                                     </button>
                                 </td>
-                                <td>{objeto.codigo}</td>
-                                <td>{objeto.nome}</td>
+                                <td>{objeto.id}</td>
+                                <td>{objeto.nameExe}</td>
                             </tr>
                         ))}
                     </tbody>
