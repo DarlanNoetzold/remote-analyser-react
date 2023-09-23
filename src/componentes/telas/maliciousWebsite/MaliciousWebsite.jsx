@@ -53,8 +53,6 @@ function MaliciousWebsite(){
         recuperaMaliciousWebsites();
     }
 
-
-
     const recuperaMaliciousWebsites = async () => {
         setCarregando(true);
         let retornoAPI = await getAllMaliciousWebsitesAPI();
