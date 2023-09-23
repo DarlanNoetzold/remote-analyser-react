@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import React, { useContext } from "react";
 import AlertContext from "./AlertContext";
 import Alerta from '../../comuns/Alerta';
 
@@ -21,26 +21,38 @@ function Tabela() {
                     <thead>
                         <tr>
                             <th scope="col" style={{ textAlign: 'center' }}>Ações</th>
-                            <th scope="col">Código</th>
-                            <th scope="col">Nome</th>
+                            <th scope="col">ID</th>
+                            <th scope="col">pcId</th>
+                            <th scope="col">Imagem</th>
+                            <th scope="col">Processos</th>
+                            <th scope="col">Data de Cadastro</th>
                         </tr>
                     </thead>
                     <tbody>
                         {listaObjetos.map(objeto => (
-                            <tr key={objeto.codigo}>
+                            <tr key={objeto.id}>
                                 <td align="center">
                                     <button className="btn btn-info"
-                                        onClick={() => editarObjeto(objeto.codigo)}
+                                        onClick={() => editarObjeto(objeto.id)}
                                         data-bs-toggle="modal" data-bs-target="#modalEdicao">
                                         <i className="bi bi-pencil-square"></i>
                                     </button>
                                     <button className="btn btn-danger" title="Remover"
-                                        onClick={() => { remover(objeto.codigo); }}>
+                                        onClick={() => { remover(objeto.id); }}>
                                         <i className="bi bi-trash"></i>
                                     </button>
                                 </td>
-                                <td>{objeto.codigo}</td>
-                                <td>{objeto.nome}</td>
+                                <td>{objeto.id}</td>
+                                <td>{objeto.pcId}</td>
+                                <td>
+                                    <img
+                                        src={`data:image/jpeg;base64,${objeto.image.base64Img}`}
+                                        alt="Imagem"
+                                        style={{ maxWidth: '100px', maxHeight: '100px' }}
+                                    />
+                                </td>
+                                <td>{objeto.processos}</td>
+                                <td>{objeto.dataCadastro}</td>
                             </tr>
                         ))}
                     </tbody>
