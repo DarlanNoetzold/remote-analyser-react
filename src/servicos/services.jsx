@@ -37,11 +37,10 @@ const getToken = async () => {
 };
 
 
-const API_BASE_URL = 'http://localhost:9000'; // Altere de acordo com o seu ambiente
+const API_BASE_URL = 'http://localhost:9000';
 
-// Função para fazer uma requisição autenticada
 const authenticatedRequest = async (url, method, body = null) => {
-  const token = await getToken(); // Obtenha o token de autenticação do estado ou de onde quer que esteja armazenado
+  const token = await getToken();
 
   const headers = {
     'Content-Type': 'application/json',
