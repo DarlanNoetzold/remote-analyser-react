@@ -2,7 +2,7 @@
 const getToken = async () => {
   const username = "admin";
   const password = "admin";
-  const tokenEndpoint = "http://localhost:8180/realms/quarkus1/protocol/openid-connect/token";
+  const tokenEndpoint = "http://localhost:8180/realms/quarkus/protocol/openid-connect/token";
 
   const authHeader = btoa("backend-service:secret");
   const formData = new URLSearchParams();
