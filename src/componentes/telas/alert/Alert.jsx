@@ -3,6 +3,9 @@ import AlertContext from "./AlertContext";
 import Tabela from "./Tabela";
 import Form from "./Form";
 import Carregando from "../../comuns/Carregando";
+import WithAuth from "../../../seguranca/WithAuth";
+import { useNavigate } from "react-router-dom";
+
 
 import {
   addAlertAPI,
@@ -12,6 +15,9 @@ import {
 } from "../../../servicos/services";
 
 function Alert() {
+
+  let navigate = useNavigate();
+
   const [alerta, setAlerta] = useState({ status: "", message: "" });
   const [listaObjetos, setListaObjetos] = useState([]);
   const [editar, setEditar] = useState(false);
@@ -45,10 +51,15 @@ function Alert() {
   };
 
   const editarObjeto = async (codigo) => {
-    setEditar(true);
-    setAlerta({ status: "", message: "" });
-    const objetoAPI = await getAlertByIdAPI(codigo);
-    setObjeto(objetoAPI);
+    try {
+      setEditar(true);
+      setAlerta({ status: "", message: "" });
+      const objetoAPI = await getAlertByIdAPI(codigo);
+      setObjeto(objetoAPI);
+    } catch (err) {
+      window.location.reload();
+      navigate("/login", { replace: true });
+    }
   };
 
   const acaoCadastrar = async (e) => {
@@ -66,8 +77,10 @@ function Alert() {
         setEditar(true);
       }
     } catch (err) {
-      console.log(err);
+      window.location.reload();
+      navigate("/login", { replace: true });
     }
+
     recuperaAlerts();
   };
 
@@ -79,10 +92,15 @@ function Alert() {
   };
 
   const remover = async (codigo) => {
-    if (window.confirm("Deseja remover este objeto")) {
-      let retornoAPI = await removeAlertByIdAPI(codigo);
-      setAlerta({ status: retornoAPI.status, message: retornoAPI.message });
-      recuperaAlerts();
+    try{
+      if (window.confirm("Deseja remover este objeto")) {
+        let retornoAPI = await removeAlertByIdAPI(codigo);
+        setAlerta({ status: retornoAPI.status, message: retornoAPI.message });
+        recuperaAlerts();
+      }
+    } catch (err) {
+      window.location.reload();
+      navigate("/login", { replace: true });
     }
   };
 
@@ -120,4 +138,4 @@ function Alert() {
   );
 }
 
-export default Alert;
+export default WithAuth(Alert);
