@@ -5,8 +5,12 @@ import { addMaliciousWebsiteAPI, getAllMaliciousWebsitesAPI, getMaliciousWebsite
 import Tabela from "./Tabela";
 import Form from "./Form";
 import Carregando from "../../comuns/Carregando";
+import WithAuth from "../../../seguranca/WithAuth";
+import { useNavigate } from "react-router-dom";
 
 function MaliciousWebsite(){
+
+    let navigate = useNavigate();
 
     const [alerta, setAlerta] = useState({status : "", message : ""});
     const [listaObjetos, setListaObjetos] = useState([]);
@@ -21,10 +25,15 @@ function MaliciousWebsite(){
     }
 
     const editarObjeto = async codigo => {
-        setEditar(true);
-        setAlerta({ status: "", message: "" });
-        const objetoAPI = await getMaliciousWebsiteByIdAPI(codigo);
-        setObjeto(objetoAPI);
+        try{
+            setEditar(true);
+            setAlerta({ status: "", message: "" });
+            const objetoAPI = await getMaliciousWebsiteByIdAPI(codigo);
+            setObjeto(objetoAPI);
+        }catch (err) {
+            window.location.reload();
+            navigate("/login", { replace: true });
+        }
     }
 
     const acaoCadastrar = async e => {
@@ -47,7 +56,8 @@ function MaliciousWebsite(){
                 setAlerta({ status: "Created", message: retornoAPI.url });
                 setObjeto(retornoAPI);
             } catch (err) {
-                console.log(err);
+                window.location.reload();
+                navigate("/login", { replace: true });
             }
         }
         recuperaMaliciousWebsites();
@@ -65,11 +75,16 @@ function MaliciousWebsite(){
     }
 
     const remover = async codigo => {
-        if (window.confirm('Deseja remover este objeto')){
-            let retornoAPI = await removeMaliciousWebsiteByIdAPI(codigo);
-            setAlerta({status : "Removed",
-                 message : retornoAPI.url});
-                 recuperaMaliciousWebsites();
+        try{
+            if (window.confirm('Deseja remover este objeto')){
+                let retornoAPI = await removeMaliciousWebsiteByIdAPI(codigo);
+                setAlerta({status : "Removed",
+                    message : retornoAPI.url});
+                    recuperaMaliciousWebsites();
+            }
+        }catch (err) {
+            window.location.reload();
+            navigate("/login", { replace: true });
         }
     }
 
@@ -98,4 +113,4 @@ function MaliciousWebsite(){
     )
 }
 
-export default MaliciousWebsite;
+export default WithAuth(MaliciousWebsite);
