@@ -5,8 +5,12 @@ import { addMaliciousProcessAPI, getAllMaliciousProcessesAPI, getMaliciousProces
 import Tabela from "./Tabela";
 import Form from "./Form";
 import Carregando from "../../comuns/Carregando";
+import { useNavigate } from "react-router-dom";
+import WithAuth from "../../../seguranca/WithAuth";
 
 function MaliciousProcess(){
+
+    let navigate = useNavigate();
 
     const [alerta, setAlerta] = useState({status : "", message : ""});
     const [listaObjetos, setListaObjetos] = useState([]);
@@ -21,10 +25,15 @@ function MaliciousProcess(){
     }
 
     const editarObjeto = async id => {
-        setEditar(true);
-        setAlerta({ status: "", message: "" });
-        const objetoAPI = await getMaliciousProcessByIdAPI(id);
-        setObjeto(objetoAPI);
+        try{
+            setEditar(true);
+            setAlerta({ status: "", message: "" });
+            const objetoAPI = await getMaliciousProcessByIdAPI(id);
+            setObjeto(objetoAPI);
+        }catch (err) {
+            window.location.reload();
+            navigate("/login", { replace: true });
+        }
     }
 
     const acaoCadastrar = async e => {
@@ -47,7 +56,8 @@ function MaliciousProcess(){
                 setAlerta({ status: "Created", message: retornoAPI.nameExe });
                 setObjeto(retornoAPI);
             } catch (err) {
-                console.log(err);
+                window.location.reload();
+                navigate("/login", { replace: true });
             }
         }
         recuperaMaliciousProcesses();
@@ -66,11 +76,16 @@ function MaliciousProcess(){
     }
 
     const remover = async codigo => {
-        if (window.confirm('Deseja remover este objeto')){
-            let retornoAPI = await removeMaliciousProcessByIdAPI(codigo);
-            setAlerta({status : "Removed",
-                 message : retornoAPI.nameExe});
-                 recuperaMaliciousProcesses();
+        try{
+            if (window.confirm('Deseja remover este objeto')){
+                let retornoAPI = await removeMaliciousProcessByIdAPI(codigo);
+                setAlerta({status : "Removed",
+                    message : retornoAPI.nameExe});
+                    recuperaMaliciousProcesses();
+            }
+        }catch (err) {
+            window.location.reload();
+            navigate("/login", { replace: true });
         }
     }
 
@@ -99,4 +114,4 @@ function MaliciousProcess(){
     )
 }
 
-export default MaliciousProcess;
+export default WithAuth(MaliciousProcess);
