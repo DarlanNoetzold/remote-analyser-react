@@ -1,7 +1,5 @@
 import { getToken } from '../seguranca/Autenticacao';
 
-
-
 //const getToken = async () => {
 //  const username = "admin";
 //  const password = "admin";
