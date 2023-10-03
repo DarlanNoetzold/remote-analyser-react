@@ -5,8 +5,13 @@ import { addMaliciousPortAPI, getAllMaliciousPortsAPI, getMaliciousPortByIdAPI, 
 import Tabela from "./Tabela";
 import Form from "./Form";
 import Carregando from "../../comuns/Carregando";
+import { useNavigate } from "react-router-dom";
+import WithAuth from "../../../seguranca/WithAuth";
+
 
 function MaliciousPort(){
+
+    let navigate = useNavigate();
 
     const [alerta, setAlerta] = useState({status : "", message : ""});
     const [listaObjetos, setListaObjetos] = useState([]);
@@ -21,10 +26,15 @@ function MaliciousPort(){
     }
 
     const editarObjeto = async id => {
-        setEditar(true);
-        setAlerta({ status: "", message: "" });
-        const objetoAPI = await getMaliciousPortByIdAPI(id);
-        setObjeto(objetoAPI);
+        try{
+            setEditar(true);
+            setAlerta({ status: "", message: "" });
+            const objetoAPI = await getMaliciousPortByIdAPI(id);
+            setObjeto(objetoAPI);
+        } catch (err) {
+            window.location.reload();
+            navigate("/login", { replace: true });
+        }
     }
 
     const acaoCadastrar = async e => {
@@ -47,7 +57,8 @@ function MaliciousPort(){
                 setAlerta({ status: "Created", message: retornoAPI.vulnarableBanners });
                 setObjeto(retornoAPI);
             } catch (err) {
-                console.log(err);
+                window.location.reload();
+                navigate("/login", { replace: true });
             }
         }
         recuperaMaliciousPorts();
@@ -65,11 +76,16 @@ function MaliciousPort(){
     }
 
     const remover = async id => {
-        if (window.confirm('Deseja remover este objeto')){
-            let retornoAPI = await removeMaliciousPortByIdAPI(id);
-            setAlerta({status : "Removed",
-                 message : retornoAPI.vulnarableBanners});
-                 recuperaMaliciousPorts();
+        try{
+            if (window.confirm('Deseja remover este objeto')){
+                let retornoAPI = await removeMaliciousPortByIdAPI(id);
+                setAlerta({status : "Removed",
+                    message : retornoAPI.vulnarableBanners});
+                    recuperaMaliciousPorts();
+            }
+        } catch (err) {
+            window.location.reload();
+            navigate("/login", { replace: true });
         }
     }
 
@@ -98,4 +114,4 @@ function MaliciousPort(){
     )
 }
 
-export default MaliciousPort;
+export default WithAuth(MaliciousPort);
