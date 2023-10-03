@@ -45,6 +45,7 @@ function Login() {
           const accessToken = responseJson.access_token;
 
           let json = {
+            username: username,
             auth: true,
             token: accessToken
           }
