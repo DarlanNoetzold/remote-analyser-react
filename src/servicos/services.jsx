@@ -1,40 +1,50 @@
+import { getToken } from '../seguranca/Autenticacao';
 
+<<<<<<< Updated upstream
 const getToken = async () => {
   const username = "admin";
   const password = "admin";
   const tokenEndpoint = "http://localhost:8180/realms/quarkus/protocol/openid-connect/token";
+=======
+>>>>>>> Stashed changes
 
-  const authHeader = btoa("backend-service:secret");
-  const formData = new URLSearchParams();
-  formData.append("username", username);
-  formData.append("password", password);
-  formData.append("grant_type", "password");
 
-  const requestOptions = {
-    method: "POST",
-    headers: {
-      "Authorization": `Basic ${authHeader}`,
-      "Content-Type": "application/x-www-form-urlencoded",
-    },
-    body: formData.toString(),
-  };
-
-  try {
-    const response = await fetch(tokenEndpoint, requestOptions);
-    console.log(response);
-    if (!response.ok) {
-      throw new Error('Falha ao obter o token de autenticação.');
-    }
-
-    const responseBody = await response.text();
-    const responseJson = JSON.parse(responseBody);
-    const accessToken = responseJson.access_token;
-    return accessToken;
-  } catch (error) {
-    console.error(error);
-    throw error;
-  }
-};
+//const getToken = async () => {
+//  const username = "admin";
+//  const password = "admin";
+//  const tokenEndpoint = "http://localhost:8180/realms/quarkus1/protocol/openid-connect/token";
+//
+//  const authHeader = btoa("backend-service:secret");
+//  const formData = new URLSearchParams();
+//  formData.append("username", username);
+//  formData.append("password", password);
+//  formData.append("grant_type", "password");
+//
+//  const requestOptions = {
+//    method: "POST",
+//    headers: {
+//      "Authorization": `Basic ${authHeader}`,
+//      "Content-Type": "application/x-www-form-urlencoded",
+//    },
+//    body: formData.toString(),
+//  };
+//
+//  try {
+//    const response = await fetch(tokenEndpoint, requestOptions);
+//    console.log(response);
+//    if (!response.ok) {
+//      throw new Error('Falha ao obter o token de autenticação.');
+//    }
+//
+//    const responseBody = await response.text();
+//    const responseJson = JSON.parse(responseBody);
+//    const accessToken = responseJson.access_token;
+//    return accessToken;
+//  } catch (error) {
+//    console.error(error);
+//    throw error;
+//  }
+//};
 
 
 const API_BASE_URL = 'http://localhost:9000';
