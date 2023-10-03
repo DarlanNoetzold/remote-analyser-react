@@ -1,12 +1,5 @@
 import { getToken } from '../seguranca/Autenticacao';
 
-<<<<<<< Updated upstream
-const getToken = async () => {
-  const username = "admin";
-  const password = "admin";
-  const tokenEndpoint = "http://localhost:8180/realms/quarkus/protocol/openid-connect/token";
-=======
->>>>>>> Stashed changes
 
 
 //const getToken = async () => {
