@@ -1,10 +1,14 @@
 import { NavLink, Outlet } from 'react-router-dom';
-import { getUsuario, logout } from '../../seguranca/Autenticacao';
+import { logout } from '../../seguranca/Autenticacao';
 
 
 const MenuPrivado = () => {
 
-    const usuario = getUsuario();
+    const localStorageAutenticacao = localStorage.getItem('remote/autenticacao');
+    const autenticacao = localStorageAutenticacao ?
+        JSON.parse(localStorageAutenticacao) : null;
+
+    const usuario = autenticacao.username;
 
     return (
         <div>
@@ -19,7 +23,6 @@ const MenuPrivado = () => {
                             <li className="nav-item">
                                 <NavLink className="nav-link active" aria-current="page" exact="true" to="/privado">Home</NavLink>
                             </li>
-                            
                             <li className="nav-item dropdown">
                                 <a className="nav-link dropdown-toggle" href="/" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                     Manutenções
@@ -35,7 +38,7 @@ const MenuPrivado = () => {
                             
                             <li className="nav-item dropdown">
                                 <a className="nav-link dropdown-toggle" href="/" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    {usuario ? "Usuário: " + usuario.nome : "Usuário"}
+                                    {usuario ? "Usuário: " + usuario : "Usuário"}
                                 </a>
                                 <ul className="dropdown-menu">
                                     <li>
