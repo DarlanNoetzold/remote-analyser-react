@@ -5,8 +5,13 @@ import { addBadLanguageAPI, getAllBadLanguagesAPI, getBadLanguageByIdAPI, remove
 import Tabela from "./Tabela";
 import Form from "./Form";
 import Carregando from "../../comuns/Carregando";
+import WithAuth from "../../../seguranca/WithAuth";
+import { useNavigate } from "react-router-dom";
+
 
 function BadLanguage(){
+
+    let navigate = useNavigate();
 
     const [alerta, setAlerta] = useState({status : "", message : ""});
     const [listaObjetos, setListaObjetos] = useState([]);
@@ -21,10 +26,15 @@ function BadLanguage(){
     }
 
     const editarObjeto = async id => {
-        setEditar(true);
-        setAlerta({ status: "", message: "" });
-        const objetoAPI = await getBadLanguageByIdAPI(id);
-        setObjeto(objetoAPI);
+        try{
+            setEditar(true);
+            setAlerta({ status: "", message: "" });
+            const objetoAPI = await getBadLanguageByIdAPI(id);
+            setObjeto(objetoAPI);
+        }catch (err) {
+            window.location.reload();
+            navigate("/login", { replace: true });
+        }
     }
 
     const acaoCadastrar = async e => {
@@ -47,7 +57,8 @@ function BadLanguage(){
                 setAlerta({ status: "Created", message: retornoAPI.word });
                 setObjeto(retornoAPI);
             } catch (err) {
-                console.log(err);
+                window.location.reload();
+                navigate("/login", { replace: true });
             }
         }
         recuperaBadLanguages();
@@ -65,12 +76,18 @@ function BadLanguage(){
     }
 
     const remover = async id => {
-        if (window.confirm('Deseja remover este objeto')){
-            let retornoAPI = await removeBadLanguageByIdAPI(id);
-            setAlerta({status : "Removed",
-                 message : retornoAPI.word});
-                 recuperaBadLanguages();
+        try{
+            if (window.confirm('Deseja remover este objeto')){
+                let retornoAPI = await removeBadLanguageByIdAPI(id);
+                setAlerta({status : "Removed",
+                    message : retornoAPI.word});
+                    recuperaBadLanguages();
+            }
+        }catch (err) {
+            window.location.reload();
+            navigate("/login", { replace: true });
         }
+        
     }
 
     const handleChange = (e) => {
@@ -98,4 +115,4 @@ function BadLanguage(){
     )
 }
 
-export default BadLanguage;
+export default WithAuth(BadLanguage);
