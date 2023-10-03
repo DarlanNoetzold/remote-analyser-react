@@ -1,14 +1,21 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import AlertContext from "./AlertContext";
 import Alerta from '../../comuns/Alerta';
 
 function Tabela() {
-
     const { alerta, listaObjetos, remover, novoObjeto, editarObjeto } = useContext(AlertContext);
+
+    // Estado local para controlar a exibição do texto completo
+    const [mostrarTextoCompleto, setMostrarTextoCompleto] = useState(false);
+
+    // Função para alternar entre exibir texto completo e resumido
+    const alternarExibicaoTexto = () => {
+        setMostrarTextoCompleto(!mostrarTextoCompleto);
+    };
 
     return (
         <div style={{ padding: '20px' }}>
-            <h1>Categorias</h1>
+            <h1>Alert</h1>
             <Alerta alerta={alerta} />
             <button type="button" className="btn btn-primary"
                 data-bs-toggle="modal" data-bs-target="#modalEdicao"
@@ -20,10 +27,10 @@ function Tabela() {
                 <table className="table">
                     <thead>
                         <tr>
+                            <th scope="col">Imagem</th>
                             <th scope="col" style={{ textAlign: 'center' }}>Ações</th>
                             <th scope="col">ID</th>
                             <th scope="col">pcId</th>
-                            <th scope="col">Imagem</th>
                             <th scope="col">Processos</th>
                             <th scope="col">Data de Cadastro</th>
                         </tr>
@@ -31,6 +38,13 @@ function Tabela() {
                     <tbody>
                         {listaObjetos.map(objeto => (
                             <tr key={objeto.id}>
+                                <td>
+                                    <img
+                                        src={`data:image/jpeg;base64,${objeto.image.base64Img}`}
+                                        alt="Imagem"
+                                        style={{ maxWidth: '100px', maxHeight: '100px' }}
+                                    />
+                                </td>
                                 <td align="center">
                                     <button className="btn btn-info"
                                         onClick={() => editarObjeto(objeto.id)}
@@ -45,13 +59,26 @@ function Tabela() {
                                 <td>{objeto.id}</td>
                                 <td>{objeto.pcId}</td>
                                 <td>
-                                    <img
-                                        src={`data:image/jpeg;base64,${objeto.image.base64Img}`}
-                                        alt="Imagem"
-                                        style={{ maxWidth: '100px', maxHeight: '100px' }}
-                                    />
+                                    {/* Verifica se o texto é maior que 30 caracteres e mostra um botão para expandir */}
+                                    {objeto.processos.length > 30 && !mostrarTextoCompleto ? (
+                                        <>
+                                            {objeto.processos.substring(0, 30)}...
+                                            <button className="btn btn-link" onClick={alternarExibicaoTexto}>
+                                                Mostrar mais
+                                            </button>
+                                        </>
+                                    ) : (
+                                        // Exibe o texto completo ou resumido conforme a escolha do usuário
+                                        <>
+                                            {mostrarTextoCompleto ? objeto.processos : objeto.processos.substring(0, 30)}
+                                            {objeto.processos.length > 30 && (
+                                                <button className="btn btn-link" onClick={alternarExibicaoTexto}>
+                                                    {mostrarTextoCompleto ? "Mostrar menos" : "Mostrar mais"}
+                                                </button>
+                                            )}
+                                        </>
+                                    )}
                                 </td>
-                                <td>{objeto.processos}</td>
                                 <td>{objeto.dataCadastro}</td>
                             </tr>
                         ))}
@@ -59,7 +86,7 @@ function Tabela() {
                 </table>
             )}
         </div>
-    )
+    );
 }
 
 export default Tabela;
