@@ -6,7 +6,7 @@ import Dialogo from '../../comuns/Dialogo';
 import { getAllImagesAPI } from '../../../servicos/services';
 
 function Form() {
-  const { objeto, handleChange, acaoCadastrar, alerta } = useContext(AlertContext);
+  const { objeto, handleChangeImg, handleChange, acaoCadastrar, alerta } = useContext(AlertContext);
 
   const [imagensDisponiveis, setImagensDisponiveis] = useState([]);
   
@@ -34,10 +34,9 @@ function Form() {
           name="ImageId"
           className="form-control"
           value={objeto.image.id}
-          onChange={handleChange}
+          onChange={handleChangeImg}
           required
         >
-          <option value="">Selecione uma imagem</option>
           {imagensDisponiveis.map(imagem => (
             <option key={imagem.id} value={imagem.id}>
               {imagem.productImg}
