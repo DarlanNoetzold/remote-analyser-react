@@ -64,6 +64,7 @@ function Alert() {
 
   const acaoCadastrar = async (e) => {
     e.preventDefault();
+    console.log(objeto);
     if (!objeto.pcId) {
       setAlerta({ status: "Error", message: "pcId deve ser preenchido" });
       return;
@@ -112,6 +113,18 @@ function Alert() {
     });
   };
 
+  const handleChangeImg = (e) => {
+    const { name, value } = e.target;
+    if(name === "ImageId"){
+      setObjeto({
+        ...objeto,
+        image:{
+          id: value
+        }
+      })
+    }    
+  };
+
   useEffect(() => {
     recuperaAlerts();
   }, []);
@@ -128,6 +141,7 @@ function Alert() {
         handleChange,
         novoObjeto,
         editarObjeto,
+        handleChangeImg
       }}
     >
       <Carregando carregando={carregando}>
