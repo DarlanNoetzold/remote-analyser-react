@@ -70,7 +70,7 @@ const authenticatedRequest = async (url, method, body = null) => {
   if (!response.ok) {
     throw new Error(data.message || 'Ocorreu um erro na requisição.');
   }
-
+  console.log(data);
   return data;
 };
 
@@ -107,7 +107,7 @@ export const addImageAPI = async (imageData) => {
 };
 
 export const getAllImagesAPI = async () => {
-  return authenticatedRequest('/image', 'GET');
+  return authenticatedRequest('/image?page=1&size=20&sortBy=id', 'GET');
 };
 
 export const getImageByIdAPI = async (id) => {
