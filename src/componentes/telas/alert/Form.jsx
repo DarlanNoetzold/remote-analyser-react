@@ -23,10 +23,10 @@ function Form() {
   }, []);
 
   return (
-    <Dialogo id="modalEdicao" titulo="Categoria" idformulario="formEdicao" acaoCadastrar={acaoCadastrar}>
+    <Dialogo id="modalEdicao" titulo="Alert" idformulario="formEdicao" acaoCadastrar={acaoCadastrar}>
       <Alerta alerta={alerta} />
-      <CampoEntrada id="txtCodigo" label="Código" tipo="number" name="codigo" value={objeto.id} handleChange={handleChange} requerido={false} readonly={true} maximocaracteres={5} />
-      <CampoEntrada id="txtPcId" label="pcId" tipo="text" name="pcId" value={objeto.pcid} handleChange={handleChange} requerido={true} readonly={false} textovalido="pcId OK" textoinvalido="Informe o pcId" maximocaracteres={40} />
+      <CampoEntrada id="txtCodigo" label="Código" tipo="number" name="codigo" value={objeto.id} handlechange={handleChange} requerido={false} readonly={true} maximocaracteres={5} />
+      <CampoEntrada id="txtPcId" label="pcId" tipo="text" name="pcId" value={objeto.pcid} handlechange={handleChange} requerido={true} readonly={false} textovalido="pcId OK" textoinvalido="Informe o pcId" maximocaracteres={40} />
       <div className="form-group">
         <label htmlFor="selectImageId">ImageId</label>
         <select
@@ -45,7 +45,7 @@ function Form() {
         </select>
       </div>
 
-      <CampoEntrada id="txtProcessos" label="Processos" tipo="text" name="processos" value={objeto.processos} handleChange={handleChange} requerido={true} readonly={false} textovalido="Processos OK" textoinvalido="Informe o Processos" maximocaracteres={40} />
+      <CampoEntrada id="txtProcessos" label="Processos" tipo="text" name="processos" value={objeto.processos} handlechange={handleChange} requerido={true} readonly={false} textovalido="Processos OK" textoinvalido="Informe o Processos" maximocaracteres={40} />
     </Dialogo>
   );
 }
