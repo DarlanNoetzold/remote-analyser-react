@@ -22,7 +22,6 @@ function Alert() {
   const [listaObjetos, setListaObjetos] = useState([]);
   const [editar, setEditar] = useState(false);
   const [objeto, setObjeto] = useState({
-    id: 0,
     pcId: "",
     image: {
       id: 0,
