@@ -106,12 +106,10 @@ function Alert() {
   };
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
-    setObjeto({
-      ...objeto,
-      [name]: value,
-    });
-  };
+    const name = e.target.name;
+    const value = e.target.value;
+    setObjeto({...objeto , [name] : value});
+}
 
   const handleChangeImg = (e) => {
     const { name, value } = e.target;
