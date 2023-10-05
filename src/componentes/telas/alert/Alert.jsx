@@ -63,7 +63,6 @@ function Alert() {
 
   const acaoCadastrar = async (e) => {
     e.preventDefault();
-    console.log(objeto);
     if (!objeto.pcId) {
       setAlerta({ status: "Error", message: "pcId deve ser preenchido" });
       return;
@@ -87,6 +86,11 @@ function Alert() {
   const recuperaAlerts = async () => {
     setCarregando(true);
     const alerts = await getAllAlertsAPI();
+    if(alerts === 0){
+      setAlerta({ status: "Error", message: "Ops... você não tem acesso a essa página" });
+      setCarregando(false);
+      return;
+    }
     setListaObjetos(alerts);
     setCarregando(false);
   };
