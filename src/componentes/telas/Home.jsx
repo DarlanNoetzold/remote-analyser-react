@@ -1,6 +1,6 @@
 const Home = () => (
     <div>
-        <h1>ALerts</h1>
+        <h1>HermesGuard Viewer</h1>
     </div>
 )
 
