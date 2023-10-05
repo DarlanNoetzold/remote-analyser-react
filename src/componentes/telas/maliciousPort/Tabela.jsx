@@ -4,7 +4,7 @@ import Alerta from '../../comuns/Alerta';
 
 function Tabela() {
 
-    const { alerta, listaObjetos, remover, novoObjeto, editarObjeto } = useContext(MaliciousPortContext);
+    const { alerta, listaObjetos, remover, novoObjeto, editarObjeto, previousPage, nextPage, page } = useContext(MaliciousPortContext);
 
     return (
         <div style={{ padding: '20px' }}>
@@ -15,8 +15,8 @@ function Tabela() {
                 onClick={() => novoObjeto()}>
                 Novo <i className="bi bi-file-earmark-plus"></i>
             </button>
-            {listaObjetos.length === 0 && <h1>Nenhum vulnarableBanners encontrada</h1>}
-            {listaObjetos.length > 0 && (
+            {(listaObjetos === null || listaObjetos.length === 0) && <h1>Nenhuma categoria encontrada</h1>}
+            {listaObjetos != null && listaObjetos.length > 0 && (
                 <table className="table">
                     <thead>
                         <tr>
@@ -46,6 +46,11 @@ function Tabela() {
                     </tbody>
                 </table>
             )}
+            <div className="pagination">
+                <button className="btn btn-primary" onClick={() =>{ previousPage(); }} disabled={page === 1}>Anterior</button>
+                <span style={{ padding: '10px' }} />
+                <button className="btn btn-primary" onClick={() =>{ nextPage(); }} disabled={listaObjetos == null || listaObjetos.length !== 10}>Próximo</button>
+            </div>
         </div>
     )
 }
