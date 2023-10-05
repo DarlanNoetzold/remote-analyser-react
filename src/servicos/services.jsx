@@ -78,7 +78,6 @@ const authenticatedRequest = async (url, method, body = null) => {
   return data;
 };
 
-// Função para autenticar o usuário
 export const loginAPI = async (login, password) => {
   const body = {
     login,
@@ -88,13 +87,12 @@ export const loginAPI = async (login, password) => {
   return authenticatedRequest('/login', 'POST', body);
 };
 
-// Funções CRUD para Alerts
 export const addAlertAPI = async (alertData) => {
   return authenticatedRequest('/alert', 'POST', alertData);
 };
 
-export const getAllAlertsAPI = async () => {
-  return authenticatedRequest('/alert?page=1&size=10&sortBy=id', 'GET');
+export const getAllAlertsAPI = async (page, size) => {
+  return authenticatedRequest(`/alert?page=${page}&size=${size}&sortBy=id`, 'GET');
 };
 
 export const getAlertByIdAPI = async (id) => {
@@ -109,7 +107,6 @@ export const removeAlertByIdAPI = async (id) => {
   return authenticatedRequest(`/alert/${id}`, 'DELETE');
 };
 
-// Funções CRUD para Images
 export const addImageAPI = async (imageData) => {
   return authenticatedRequest('/image', 'POST', imageData);
 };
@@ -122,13 +119,12 @@ export const getImageByIdAPI = async (id) => {
   return authenticatedRequest(`/image/${id}`, 'GET');
 };
 
-// Funções CRUD para Malicious Website
 export const addMaliciousWebsiteAPI = async (websiteData) => {
   return authenticatedRequest('/website', 'POST', websiteData);
 };
 
-export const getAllMaliciousWebsitesAPI = async () => {
-  return authenticatedRequest('/website?page=1&size=10&sortBy=id', 'GET');
+export const getAllMaliciousWebsitesAPI = async (page, size) => {
+  return authenticatedRequest(`/website?page=${page}&size=${size}&sortBy=id`, 'GET');
 };
 
 export const getMaliciousWebsiteByIdAPI = async (id) => {
@@ -143,13 +139,12 @@ export const updateMaliciousWebsiteAPI = async (id, updatedWebsiteData) => {
   return authenticatedRequest(`/website/${id}`, 'PUT', updatedWebsiteData);
 };
 
-// Funções CRUD para Malicious Process
 export const addMaliciousProcessAPI = async (processData) => {
   return authenticatedRequest('/process', 'POST', processData);
 };
 
-export const getAllMaliciousProcessesAPI = async () => {
-  return authenticatedRequest('/process?page=1&size=10&sortBy=id', 'GET');
+export const getAllMaliciousProcessesAPI = async (page, size) => {
+  return authenticatedRequest(`/process?page=${page}&size=${size}&sortBy=id`, 'GET');
 };
 
 export const getMaliciousProcessByIdAPI = async (id) => {
@@ -164,13 +159,12 @@ export const updateMaliciousProcessAPI = async (id, updatedProcessData) => {
   return authenticatedRequest(`/process/${id}`, 'PUT', updatedProcessData);
 };
 
-// Funções CRUD para Malicious Port
 export const addMaliciousPortAPI = async (portData) => {
   return authenticatedRequest('/port', 'POST', portData);
 };
 
-export const getAllMaliciousPortsAPI = async () => {
-  return authenticatedRequest('/port?page=1&size=10&sortBy=id', 'GET');
+export const getAllMaliciousPortsAPI = async (page, size) => {
+  return authenticatedRequest(`/port?page=${page}&size=${size}&sortBy=id`, 'GET');
 };
 
 export const getMaliciousPortByIdAPI = async (id) => {
@@ -185,7 +179,6 @@ export const updateMaliciousPortAPI = async (id, updatedPortData) => {
   return authenticatedRequest(`/port/${id}`, 'PUT', updatedPortData);
 };
 
-// Funções CRUD para Bad Language
 export const addBadLanguageAPI = async (languageData) => {
   return authenticatedRequest('/language', 'POST', languageData);
 };
@@ -194,8 +187,8 @@ export const getBadLanguageByIdAPI = async (id) => {
   return authenticatedRequest(`/language/${id}`, 'GET');
 };
 
-export const getAllBadLanguagesAPI = async () => {
-  return authenticatedRequest('/language?page=1&size=10&sortBy=id', 'GET');
+export const getAllBadLanguagesAPI = async (page, size) => {
+  return authenticatedRequest(`/language?page=${page}&size=${size}&sortBy=id`, 'GET');
 };
 
 export const removeBadLanguageByIdAPI = async (id) => {
