@@ -11,6 +11,7 @@ import { useNavigate } from "react-router-dom";
 function MaliciousWebsite(){
 
     let navigate = useNavigate();
+    const SIZE = 10;
 
     const [alerta, setAlerta] = useState({status : "", message : ""});
     const [listaObjetos, setListaObjetos] = useState([]);
@@ -72,7 +73,7 @@ function MaliciousWebsite(){
             return;
         }
         if(retornoAPI == null){
-            setAlerta({ status: "No Content", message: "Não existem sites cadastradas" });
+            setAlerta({ status: "No Content", message: "Não existem sites cadastrados" });
         }else{
             setListaObjetos(retornoAPI);
         }
@@ -91,6 +92,10 @@ function MaliciousWebsite(){
             window.location.reload();
             navigate("/login", { replace: true });
         }
+    }
+
+    const novaPagina = async page => {
+        recuperaMaliciousWebsites(page, SIZE);
     }
 
     const handleChange = (e) => {
