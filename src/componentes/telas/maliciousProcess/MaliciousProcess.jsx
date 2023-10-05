@@ -11,12 +11,15 @@ import WithAuth from "../../../seguranca/WithAuth";
 function MaliciousProcess(){
 
     let navigate = useNavigate();
+    const SIZE = 10;
 
     const [alerta, setAlerta] = useState({status : "", message : ""});
     const [listaObjetos, setListaObjetos] = useState([]);
     const [editar, setEditar] = useState(false);
     const [objeto, setObjeto] = useState({nameExe : ""});
     const [carregando, setCarregando] = useState(false);
+    const [page, setPage] = useState(1);
+
 
     const novoObjeto = () => {
         setEditar(false);
@@ -65,14 +68,16 @@ function MaliciousProcess(){
 
     const recuperaMaliciousProcesses = async () => {
         setCarregando(true);
-        let retornoAPI = await getAllMaliciousProcessesAPI();
+        let retornoAPI = await getAllMaliciousProcessesAPI(page, SIZE);
         if(retornoAPI === 0){
             setAlerta({ status: "Error", message: "Ops... você não tem acesso a essa página" });
             setCarregando(false);
             return;
         }
         if(retornoAPI == null){
-            setAlerta({ status: "No Content", message: "Não existem processos cadastradas" });
+            setAlerta({ status: "No Content", message: "Não existem sites cadastrados" });
+            setListaObjetos(retornoAPI);
+            setCarregando(false)
         }else{
             setListaObjetos(retornoAPI);
         }
@@ -93,6 +98,16 @@ function MaliciousProcess(){
             navigate("/login", { replace: true });
         }
     }
+    
+    const nextPage = () => {
+        setPage(page => page + 1);
+    }
+
+    const previousPage = () => {
+        if (page > 1) {
+            setPage(page => page - 1);
+        }
+    }
 
     const handleChange = (e) => {
         const name = e.target.name;
@@ -102,13 +117,13 @@ function MaliciousProcess(){
 
     useEffect(() => {
         recuperaMaliciousProcesses();
-    },[]);
+    },[page]);
 
     return (
         <MaliciousProcessContext.Provider value={{
             alerta, setAlerta, listaObjetos, remover,
             objeto, editar, acaoCadastrar, 
-            handleChange, novoObjeto, editarObjeto
+            handleChange, novoObjeto, editarObjeto, nextPage, previousPage, page
         }}>
             <Carregando carregando={carregando}>
             <Tabela/>
