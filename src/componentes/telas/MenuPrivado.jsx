@@ -32,7 +32,7 @@ const MenuPrivado = () => {
                                     <li><NavLink className="dropdown-item" exact="true" to="maliciousWebsites">Sites</NavLink></li>
                                     <li><NavLink className="dropdown-item" exact="true" to="maliciousProcesses">Processes</NavLink></li>
                                     <li><NavLink className="dropdown-item" exact="true" to="maliciousPorts">Ports</NavLink></li>
-                                    <li><NavLink className="dropdown-item" exact="true" to="badLanguages">Languages</NavLink></li>                                                                                                      
+                                    <li><NavLink className="dropdown-item" exact="true" to="badLanguages">Languages</NavLink></li>
                                 </ul>
                             </li>
                             
