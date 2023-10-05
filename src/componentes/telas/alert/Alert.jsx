@@ -17,6 +17,7 @@ import {
 function Alert() {
 
   let navigate = useNavigate();
+  const SIZE = 10;
 
   const [alerta, setAlerta] = useState({ status: "", message: "" });
   const [listaObjetos, setListaObjetos] = useState([]);
@@ -32,6 +33,7 @@ function Alert() {
     dataCadastro: "",
   });
   const [carregando, setCarregando] = useState(false);
+  const [page, setPage] = useState(1);
 
   const novoObjeto = () => {
     setEditar(false);
@@ -85,13 +87,19 @@ function Alert() {
 
   const recuperaAlerts = async () => {
     setCarregando(true);
-    const alerts = await getAllAlertsAPI();
-    if(alerts === 0){
+    const retornoAPI = await getAllAlertsAPI(page, SIZE);
+    if(retornoAPI === 0){
       setAlerta({ status: "Error", message: "Ops... você não tem acesso a essa página" });
       setCarregando(false);
       return;
     }
-    setListaObjetos(alerts);
+    if(retornoAPI == null){
+      setAlerta({ status: "No Content", message: "Não existem sites cadastrados" });
+      setListaObjetos(retornoAPI);
+      setCarregando(false)
+  }else{
+      setListaObjetos(retornoAPI);
+  }
     setCarregando(false);
   };
 
@@ -114,6 +122,16 @@ function Alert() {
     setObjeto({...objeto , [name] : value});
 }
 
+const nextPage = () => {
+  setPage(page => page + 1);
+}
+
+const previousPage = () => {
+  if (page > 1) {
+      setPage(page => page - 1);
+  }
+}
+
   const handleChangeImg = (e) => {
     const { name, value } = e.target;
     if(name === "ImageId"){
@@ -128,7 +146,7 @@ function Alert() {
 
   useEffect(() => {
     recuperaAlerts();
-  }, []);
+  }, [page]);
 
   return (
     <AlertContext.Provider
@@ -142,7 +160,7 @@ function Alert() {
         handleChange,
         novoObjeto,
         editarObjeto,
-        handleChangeImg
+        handleChangeImg, nextPage, previousPage, page
       }}
     >
       <Carregando carregando={carregando}>
