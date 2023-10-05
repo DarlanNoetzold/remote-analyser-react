@@ -17,6 +17,7 @@ function MaliciousWebsite(){
     const [listaObjetos, setListaObjetos] = useState([]);
     const [editar, setEditar] = useState(false);
     const [objeto, setObjeto] = useState({url : ""});
+    const [page, setPage] = useState(1);
     const [carregando, setCarregando] = useState(false);
 
     const novoObjeto = () => {
@@ -66,7 +67,7 @@ function MaliciousWebsite(){
 
     const recuperaMaliciousWebsites = async () => {
         setCarregando(true);
-        let retornoAPI = await getAllMaliciousWebsitesAPI();
+        let retornoAPI = await getAllMaliciousWebsitesAPI(page, SIZE);
         if(retornoAPI === 0){
             setAlerta({ status: "Error", message: "Ops... você não tem acesso a essa página" });
             setCarregando(false);
@@ -74,6 +75,8 @@ function MaliciousWebsite(){
         }
         if(retornoAPI == null){
             setAlerta({ status: "No Content", message: "Não existem sites cadastrados" });
+            setListaObjetos(retornoAPI);
+            setCarregando(false)
         }else{
             setListaObjetos(retornoAPI);
         }
@@ -94,8 +97,14 @@ function MaliciousWebsite(){
         }
     }
 
-    const novaPagina = async page => {
-        recuperaMaliciousWebsites(page, SIZE);
+    const nextPage = () => {
+        setPage(page => page + 1);
+    }
+
+    const previousPage = () => {
+        if (page > 1) {
+            setPage(page => page - 1);
+        }
     }
 
     const handleChange = (e) => {
@@ -106,13 +115,13 @@ function MaliciousWebsite(){
 
     useEffect(() => {
         recuperaMaliciousWebsites();
-    },[]);
+    },[page]);
 
     return (
         <MaliciousWebsiteContext.Provider value={{
             alerta, setAlerta, listaObjetos, remover,
             objeto, editar, acaoCadastrar, 
-            handleChange, novoObjeto, editarObjeto
+            handleChange, novoObjeto, editarObjeto, nextPage, previousPage, page
         }}>
             <Carregando carregando={carregando}>
             <Tabela/>
