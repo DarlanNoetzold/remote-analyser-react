@@ -66,6 +66,11 @@ function MaliciousWebsite(){
     const recuperaMaliciousWebsites = async () => {
         setCarregando(true);
         let retornoAPI = await getAllMaliciousWebsitesAPI();
+        if(retornoAPI === 0){
+            setAlerta({ status: "Error", message: "Ops... você não tem acesso a essa página" });
+            setCarregando(false);
+            return;
+        }
         if(retornoAPI == null){
             setAlerta({ status: "No Content", message: "Não existem sites cadastradas" });
         }else{
