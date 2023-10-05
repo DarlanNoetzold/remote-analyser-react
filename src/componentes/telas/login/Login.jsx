@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
-import { Navigate } from 'react-router-dom';
-import { gravaAutenticacao, getToken } from '../../../seguranca/Autenticacao';
+import { Navigate, json } from 'react-router-dom';
+import { getRoles, gravaAutenticacao, getToken } from '../../../seguranca/Autenticacao';
+import jwt_decode from "jwt-decode";
 import Carregando from '../../comuns/Carregando';
 import Alerta from '../../comuns/Alerta';
 import './signin.css';
@@ -43,11 +44,14 @@ function Login() {
           const responseBody = await response.text();
           const responseJson = JSON.parse(responseBody);
           const accessToken = responseJson.access_token;
+          
+          let decodedAccessToken = jwt_decode(accessToken);
 
           let json = {
             username: username,
             auth: true,
-            token: accessToken
+            token: accessToken,
+            roles: [decodedAccessToken.realm_access.roles]
           }
           setAutenticado(true);
           gravaAutenticacao(json);
@@ -71,9 +75,13 @@ function Login() {
             setAlerta({ status: "error", message: err })
         }
     }, []);
-
-    if (autenticado === true) {
-        return <Navigate to="/privado" />
+    
+    if(getRoles() != null){
+        if (getRoles().includes("admin")){
+            return <Navigate to="/privado" />
+        }else if (getRoles().includes("user")){
+            return <Navigate to="/user" />
+        }
     }
 
     return (
