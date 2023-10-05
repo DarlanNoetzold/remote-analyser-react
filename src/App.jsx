@@ -12,6 +12,8 @@ import MaliciousPort from "./componentes/telas/maliciousPort/MaliciousPort";
 import MenuPublico from "./componentes/telas/MenuPublico";
 import MenuPrivado from "./componentes/telas/MenuPrivado";
 import Login from "./componentes/telas/login/Login";
+import AlertUser from "./componentes/telas/alertUser/AlertUser";
+import MenuUser from "./componentes/telas/MenuUser";
 
 const router = createBrowserRouter([
   {
@@ -41,6 +43,10 @@ const router = createBrowserRouter([
         element :  <Alert/>
       },
       {
+        path : "alertsUser",
+        element :  <AlertUser/>
+      },
+      {
         path : "maliciousWebsites",
         element :  <MaliciousWebsite/>
       } ,
@@ -56,6 +62,20 @@ const router = createBrowserRouter([
         path : "badLanguages",
         element :  <BadLanguage/>
       }    
+    ]
+  },
+  {
+    path : "/user",
+    element : <MenuUser/>,
+    children : [
+      {
+        index : true,
+        element : <Home/>
+      },
+      {
+        path : "alertsUser",
+        element :  <AlertUser/>
+      }
     ]
   }
 ])
