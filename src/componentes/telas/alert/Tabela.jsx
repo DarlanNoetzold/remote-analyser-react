@@ -3,7 +3,7 @@ import AlertContext from "./AlertContext";
 import Alerta from '../../comuns/Alerta';
 
 function Tabela() {
-    const { alerta, listaObjetos, remover, novoObjeto, editarObjeto } = useContext(AlertContext);
+    const { alerta, listaObjetos, remover, novoObjeto, editarObjeto, previousPage, nextPage, page } = useContext(AlertContext);
 
     // Estado local para controlar a exibição do texto completo
     const [mostrarTextoCompleto, setMostrarTextoCompleto] = useState(false);
@@ -22,8 +22,8 @@ function Tabela() {
                 onClick={() => novoObjeto()}>
                 Novo <i className="bi bi-file-earmark-plus"></i>
             </button>
-            {listaObjetos.length === 0 && <h1>Nenhuma categoria encontrada</h1>}
-            {listaObjetos.length > 0 && (
+            {(listaObjetos === null || listaObjetos.length === 0) && <h1>Nenhuma categoria encontrada</h1>}
+            {listaObjetos != null && listaObjetos.length > 0 && (
                 <table className="table">
                     <thead>
                         <tr>
@@ -59,7 +59,6 @@ function Tabela() {
                                 <td>{objeto.id}</td>
                                 <td>{objeto.pcId}</td>
                                 <td>
-                                    {/* Verifica se o texto é maior que 30 caracteres e mostra um botão para expandir */}
                                     {objeto.processos.length > 30 && !mostrarTextoCompleto ? (
                                         <>
                                             {objeto.processos.substring(0, 30)}...
@@ -68,7 +67,6 @@ function Tabela() {
                                             </button>
                                         </>
                                     ) : (
-                                        // Exibe o texto completo ou resumido conforme a escolha do usuário
                                         <>
                                             {mostrarTextoCompleto ? objeto.processos : objeto.processos.substring(0, 30)}
                                             {objeto.processos.length > 30 && (
@@ -85,6 +83,11 @@ function Tabela() {
                     </tbody>
                 </table>
             )}
+            <div className="pagination">
+                <button className="btn btn-primary" onClick={() =>{ previousPage(); }} disabled={page === 1}>Anterior</button>
+                <span style={{ padding: '10px' }} />
+                <button className="btn btn-primary" onClick={() =>{ nextPage(); }} disabled={listaObjetos == null || listaObjetos.length !== 10}>Próximo</button>
+            </div>
         </div>
     );
 }
