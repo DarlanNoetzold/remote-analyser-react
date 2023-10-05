@@ -61,11 +61,15 @@ const authenticatedRequest = async (url, method, body = null) => {
 
   const response = await fetch(`${API_BASE_URL}${url}`, options);
   
+  if(response.status === 403){
+    return 0;
+  }
+
   if (response.status === 204) {
     return null;
   }
 
-  const data = await response.json();
+  const data = await response.json();  
 
   if (!response.ok) {
     throw new Error(data.message || 'Ocorreu um erro na requisição.');
@@ -95,6 +99,10 @@ export const getAllAlertsAPI = async () => {
 
 export const getAlertByIdAPI = async (id) => {
   return authenticatedRequest(`/alert/${id}`, 'GET');
+};
+
+export const getAlertByPcIdAPI = async (id) => {
+  return authenticatedRequest(`/alert/pcId/${id}`, 'GET');
 };
 
 export const removeAlertByIdAPI = async (id) => {
