@@ -67,6 +67,11 @@ function BadLanguage(){
     const recuperaBadLanguages = async () => {
         setCarregando(true);
         let retornoAPI = await getAllBadLanguagesAPI();
+        if(retornoAPI === 0){
+            setAlerta({ status: "Error", message: "Ops... você não tem acesso a essa página" });
+            setCarregando(false);
+            return;
+        }
         if(retornoAPI == null){
             setAlerta({ status: "No Content", message: "Não existem badLanguages cadastradas" });
         }else{
@@ -93,7 +98,6 @@ function BadLanguage(){
     const handleChange = (e) => {
         const name = e.target.name;
         const value = e.target.value;
-        console.log(objeto);
         setObjeto({...objeto , [name] : value});
     }
 
