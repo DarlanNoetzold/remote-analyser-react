@@ -13,6 +13,7 @@ export const getToken = () => {
         return null;
     } else {
         var decoded = jwt_decode(autenticacao.token);
+        
         if (decoded.exp <= Math.floor(new Date() / 1000)) {
             console.log('Token expirado');
             logout();
@@ -20,6 +21,21 @@ export const getToken = () => {
         } else {
             return autenticacao.token;
         }
+    }
+}
+
+export const getRoles = () => {
+    const localStorageAutenticacao = localStorage.getItem(NOMEAPP + '/autenticacao');
+    const autenticacao = localStorageAutenticacao ?
+        JSON.parse(localStorageAutenticacao) : null;
+    if (autenticacao === null) {
+        return null;
+    }
+    if (autenticacao.auth === false) {
+        return null;
+    } else {
+        let decodedAccessToken = jwt_decode(autenticacao.token);
+        return decodedAccessToken.realm_access.roles;
     }
 }
 
