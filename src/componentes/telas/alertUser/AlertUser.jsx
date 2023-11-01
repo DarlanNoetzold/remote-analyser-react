@@ -20,12 +20,12 @@ function Alert() {
   const [listaObjetos, setListaObjetos] = useState([]);
   const [editar, setEditar] = useState(false);
   const [objeto, setObjeto] = useState({
+    id: 0,
     pcId: "",
-    image: {
-      id: 0,
-      productImg: "",
-      base64Img: "",
-    },
+    image: "",
+    language: "en",
+    log: "",
+    models: [],
     processos: null,
     dataCadastro: "",
   });
@@ -83,18 +83,6 @@ function Alert() {
     setObjeto({...objeto , [name] : value});
 }
 
-  const handleChangeImg = (e) => {
-    const { name, value } = e.target;
-    if(name === "ImageId"){
-      setObjeto({
-        ...objeto,
-        image:{
-          id: value
-        }
-      })
-    }    
-  };
-
   useEffect(() => {
     recuperaAlerts();
   }, []);
@@ -109,7 +97,6 @@ function Alert() {
         editar,
         acaoCadastrar,
         handleChange,
-        handleChangeImg
       }}
     >
       <Carregando carregando={carregando}>
