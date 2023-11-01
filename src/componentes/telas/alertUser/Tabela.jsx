@@ -5,10 +5,8 @@ import AlertUserContext from "./AlertUserContext";
 function Tabela() {
     const { alerta, listaObjetos, remover } = useContext(AlertUserContext);
 
-    // Estado local para controlar a exibição do texto completo
     const [mostrarTextoCompleto, setMostrarTextoCompleto] = useState(false);
 
-    // Função para alternar entre exibir texto completo e resumido
     const alternarExibicaoTexto = () => {
         setMostrarTextoCompleto(!mostrarTextoCompleto);
     };
@@ -26,6 +24,8 @@ function Tabela() {
                             <th scope="col" style={{ textAlign: 'center' }}>Ações</th>
                             <th scope="col">ID</th>
                             <th scope="col">pcId</th>
+                            <th scope="col">log</th>
+                            <th scope="col">language</th>
                             <th scope="col">Processos</th>
                             <th scope="col">Data de Cadastro</th>
                         </tr>
@@ -35,9 +35,9 @@ function Tabela() {
                             <tr key={objeto.id}>
                                 <td>
                                     <img
-                                        src={`data:image/jpeg;base64,${objeto.image.base64Img}`}
+                                        src={`data:image/jpeg;base64,${objeto.image}`}
                                         alt="Imagem"
-                                        style={{ maxWidth: '500px', maxHeight: '500px' }}
+                                        style={{ maxWidth: '1500px', maxHeight: '1500px' }}
                                     />
                                 </td>
                                 <td align="center">
@@ -48,8 +48,10 @@ function Tabela() {
                                 </td>
                                 <td>{objeto.id}</td>
                                 <td>{objeto.pcId}</td>
+                                <td>{objeto.log}</td>
+                                <td>{objeto.language}</td>
                                 <td>
-                                    {/* Verifica se o texto é maior que 30 caracteres e mostra um botão para expandir */}
+                                    {}
                                     {objeto.processos.length > 30 && !mostrarTextoCompleto ? (
                                         <>
                                             {objeto.processos.substring(0, 30)}...
@@ -58,7 +60,6 @@ function Tabela() {
                                             </button>
                                         </>
                                     ) : (
-                                        // Exibe o texto completo ou resumido conforme a escolha do usuário
                                         <>
                                             {mostrarTextoCompleto ? objeto.processos : objeto.processos.substring(0, 30)}
                                             {objeto.processos.length > 30 && (
