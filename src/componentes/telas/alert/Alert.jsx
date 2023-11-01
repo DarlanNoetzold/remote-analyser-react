@@ -23,12 +23,12 @@ function Alert() {
   const [listaObjetos, setListaObjetos] = useState([]);
   const [editar, setEditar] = useState(false);
   const [objeto, setObjeto] = useState({
+    id: 0,
     pcId: "",
-    image: {
-      id: 0,
-      productImg: "",
-      base64Img: "",
-    },
+    image: "",
+    language: "en",
+    log: "ctrlcctrltabaltcctrltabtabaltvctrltabaltcctrlvctrlsssctrldfdsafas",
+    models: [],
     processos: null,
     dataCadastro: "",
   });
@@ -41,11 +41,10 @@ function Alert() {
     setObjeto({
       id: 0,
       pcId: "",
-      image: {
-        id: 0,
-        productImg: "",
-        base64Img: "",
-      },
+      image: "",
+      language: "en",
+      log: "ctrlcctrltabaltcctrltabtabaltvctrltabaltcctrlvctrlsssctrldfdsafas",
+      models: [],
       processos: null,
       dataCadastro: "",
     });
