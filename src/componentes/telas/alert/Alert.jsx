@@ -33,7 +33,7 @@ function Alert() {
     dataCadastro: "",
   });
   const [carregando, setCarregando] = useState(false);
-  const [page, setPage] = useState(1);
+  const [page, setPage] = useState(0);
 
   const novoObjeto = () => {
     setEditar(false);
@@ -131,18 +131,6 @@ const previousPage = () => {
   }
 }
 
-  const handleChangeImg = (e) => {
-    const { name, value } = e.target;
-    if(name === "ImageId"){
-      setObjeto({
-        ...objeto,
-        image:{
-          id: value
-        }
-      })
-    }    
-  };
-
   useEffect(() => {
     recuperaAlerts();
   }, [page]);
@@ -159,7 +147,7 @@ const previousPage = () => {
         handleChange,
         novoObjeto,
         editarObjeto,
-        handleChangeImg, nextPage, previousPage, page
+        nextPage, previousPage, page
       }}
     >
       <Carregando carregando={carregando}>
