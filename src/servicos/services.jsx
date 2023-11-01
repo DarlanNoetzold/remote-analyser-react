@@ -2,6 +2,7 @@ import { getToken } from '../seguranca/Autenticacao';
 
 
 const API_BASE_URL = 'http://localhost:9000';
+const COMPANY = 1
 
 const authenticatedRequest = async (url, method, body = null) => {
   const token = await getToken();
@@ -55,7 +56,7 @@ export const addAlertAPI = async (alertData) => {
 };
 
 export const getAllAlertsAPI = async (page, size) => {
-  return authenticatedRequest(`/alert?page=${page}&size=${size}&sortBy=id`, 'GET');
+  return authenticatedRequest(`/alert?page=${page}&size=${size}&company=${COMPANY}`, 'GET');
 };
 
 export const getAlertByIdAPI = async (id) => {
