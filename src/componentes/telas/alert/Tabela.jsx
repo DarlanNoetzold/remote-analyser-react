@@ -37,7 +37,7 @@ function Tabela() {
                                     <img
                                         src={`data:image/jpeg;base64,${objeto.image}`}
                                         alt="Imagem"
-                                        style={{ maxWidth: '1500px', maxHeight: '1500px' }}
+                                        style={{ maxWidth: '900px', maxHeight: '600px' }}
                                     />
                                 </td>
                                 <td align="center">
