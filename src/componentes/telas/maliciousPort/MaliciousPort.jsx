@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import MaliciousPortContext from "./MaliciousPortContext";
-import { addMaliciousPortAPI, getAllMaliciousPortsAPI, getMaliciousPortByIdAPI, removeMaliciousPortByIdAPI, updateMaliciousPortAPI} 
+import { addMaliciousPortAPI, getAllMaliciousPortsAPI, getMaliciousPortByIdAPI, removeMaliciousPortByIdAPI, updateMaliciousPortAPI, uploadPortCSVAPI} 
     from '../../../servicos/services';
 import Tabela from "./Tabela";
 import Form from "./Form";
@@ -20,7 +20,29 @@ function MaliciousPort(){
     const [objeto, setObjeto] = useState({vulnarableBanners : ""});
     const [carregando, setCarregando] = useState(false);
     const [page, setPage] = useState(1);
+    const [selectedFile, setSelectedFile] = useState(null);
 
+    const handleFileChange = (e) => {
+        setSelectedFile(e.target.files[0]);
+    };
+    
+    const handleFileUpload = async () => {
+        if (!selectedFile) {
+          return;
+        }
+    
+        const formData = new FormData();
+        formData.append("file", selectedFile);
+    
+        try {
+          const response = await uploadPortCSVAPI(formData);
+          console.log("File uploaded successfully:", response);
+          setSelectedFile(null);
+          recuperaMaliciousPorts();
+        } catch (error) {
+          console.error("File upload failed:", error);
+        }
+    };
 
     const novoObjeto = () => {
         setEditar(false);
@@ -123,7 +145,7 @@ function MaliciousPort(){
         <MaliciousPortContext.Provider value={{
             alerta, setAlerta, listaObjetos, remover,
             objeto, editar, acaoCadastrar, 
-            handleChange, novoObjeto, editarObjeto, nextPage, previousPage, page
+            handleChange, novoObjeto, editarObjeto, nextPage, previousPage, page, handleFileUpload, handleFileChange
         }}>
             <Carregando carregando={carregando}>
             <Tabela/>
