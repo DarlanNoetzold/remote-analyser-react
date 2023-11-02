@@ -4,18 +4,20 @@ import Alerta from '../../comuns/Alerta';
 
 function Tabela() {
 
-    const { alerta, listaObjetos, remover, novoObjeto, editarObjeto, previousPage, nextPage, page } = useContext(MaliciousWebsiteContext);
+    const { alerta, listaObjetos, remover, novoObjeto, editarObjeto, previousPage, nextPage, page, handleFileChange, handleFileUpload } = useContext(MaliciousWebsiteContext);
 
     return (
         <div style={{ padding: '20px' }}>
             <h1>Websites</h1>
             <Alerta alerta={alerta} />
+            <input type="file" accept=".csv" onChange={handleFileChange} />
+            <button className="btn btn-primary" onClick={handleFileUpload}>Upload CSV</button>
             <button type="button" className="btn btn-primary"
                 data-bs-toggle="modal" data-bs-target="#modalEdicao"
                 onClick={() => novoObjeto()}>
                 Novo <i className="bi bi-file-earmark-plus"></i>
             </button>
-            {(listaObjetos == null || listaObjetos.length === 0) && <h1>Nenhuma categoria encontrada</h1>}
+            {(listaObjetos === null || listaObjetos.length === 0) && <h1>Nenhuma categoria encontrada</h1>}
             {listaObjetos != null && listaObjetos.length > 0 && (
                 <div>
                     <table className="table">
