@@ -5,7 +5,7 @@ import CryptoJS from 'crypto-js';
 
 function Tabela() {
     const { alerta, listaObjetos, remover } = useContext(AlertUserContext);
-    
+
     const [mostrarTextoCompleto, setMostrarTextoCompleto] = useState(false);
     const [alertData, setAlertData] = useState(null);
     const [alertJSON, setAlertJSON] = useState("");
@@ -15,16 +15,18 @@ function Tabela() {
         setMostrarTextoCompleto(!mostrarTextoCompleto);
     };
 
-    const generateHash = () => {
-        const jsonAlertData = JSON.stringify(alertData);
+    const generateHash = (data) => {
+        // Exclua o campo "image" dos dados para a geração do hash
+        const { image, ...alertDataWithoutImage } = data;
+        const jsonAlertData = JSON.stringify(alertDataWithoutImage);
         const hash = CryptoJS.SHA256(jsonAlertData).toString();
         return hash;
     };
 
     const downloadAlertJSON = () => {
         if (alertData) {
-            const hash = generateHash();
-            const jsonAlertData = JSON.stringify(alertData);
+            const hash = generateHash(alertData);
+            const jsonAlertData = JSON.stringify({ ...alertData, hash });
 
             const blob = new Blob([jsonAlertData], { type: "application/json" });
             const url = URL.createObjectURL(blob);
@@ -41,11 +43,16 @@ function Tabela() {
 
         try {
             const parsedAlert = JSON.parse(alertJSON);
-            const hash = generateHash();
-            if (hash === parsedAlert.hash) {
-                setValidationResult("Alerta válido.");
+            if (parsedAlert.hash) {
+                const { image, hash, ...alertDataWithoutImageAndHash } = parsedAlert;
+                const hash1 = generateHash(alertDataWithoutImageAndHash);
+                if (hash1 === parsedAlert.hash) {
+                    setValidationResult("Alerta válido.");
+                } else {
+                    setValidationResult("Alerta inválido.");
+                }
             } else {
-                setValidationResult("Alerta inválido.");
+                setValidationResult("Alerta inválido. Campo 'hash' ausente no JSON.");
             }
         } catch (error) {
             setValidationResult("Erro na validação. Certifique-se de inserir um JSON válido.");
@@ -119,7 +126,15 @@ function Tabela() {
                     </tbody>
                 </table>
             )}
-        <div>
+            {alertData && (
+                <div>
+                    <button className="btn btn-primary" title="Download Alerta" onClick={downloadAlertJSON}>
+                        Download Alerta
+                    </button>
+                </div>
+            )}
+
+            <div>
                 <h2>Validar Alerta</h2>
                 <form onSubmit={handleValidation}>
                     <label>
