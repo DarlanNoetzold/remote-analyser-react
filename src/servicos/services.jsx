@@ -71,18 +71,6 @@ export const removeAlertByIdAPI = async (id) => {
   return authenticatedRequest(`/alert/${id}`, 'DELETE');
 };
 
-export const addImageAPI = async (imageData) => {
-  return authenticatedRequest('/image', 'POST', imageData);
-};
-
-export const getAllImagesAPI = async () => {
-  return authenticatedRequest('/image?page=1&size=20&sortBy=id', 'GET');
-};
-
-export const getImageByIdAPI = async (id) => {
-  return authenticatedRequest(`/image/${id}`, 'GET');
-};
-
 export const addMaliciousWebsiteAPI = async (websiteData) => {
   return authenticatedRequest('/website', 'POST', websiteData);
 };
@@ -161,4 +149,52 @@ export const removeBadLanguageByIdAPI = async (id) => {
 
 export const updateBadLanguageAPI = async (id, updatedLanguageData) => {
   return authenticatedRequest(`/language/${id}`, 'PUT', updatedLanguageData);
+};
+
+const authenticatedFormDataRequest = async (url, method, formData) => {
+  const token = await getToken();
+
+  const headers = {
+    Authorization: `Bearer ${token}`,
+  };
+
+  const options = {
+    method,
+    headers,
+    body: formData,
+  };
+
+  const response = await fetch(`${API_BASE_URL}${url}`, options);
+
+  if (response.status === 403) {
+    return 0;
+  }
+
+  if (response.status === 204) {
+    return null;
+  }
+
+  const data = await response.json();
+
+  if (!response.ok) {
+    throw new Error(data.message || 'Ocorreu um erro na requisição.');
+  }
+
+  return data;
+};
+
+export const uploadWebsiteCSVAPI = async (file) => {
+  return authenticatedFormDataRequest('/website/upload', 'POST', file);
+};
+
+export const uploadLanguageCSVAPI = async (file) => {
+  return authenticatedFormDataRequest('/language/upload', 'POST', file);
+};
+
+export const uploadPortCSVAPI = async (file) => {
+  return authenticatedFormDataRequest('/port/upload', 'POST', file);
+};
+
+export const uploadProcessCSVAPI = async (file) => {
+  return authenticatedFormDataRequest('/process/upload', 'POST', file);
 };
