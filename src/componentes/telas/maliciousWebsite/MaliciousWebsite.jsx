@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import MaliciousWebsiteContext from "./MaliciousWebsiteContext";
-import { addMaliciousWebsiteAPI, getAllMaliciousWebsitesAPI, getMaliciousWebsiteByIdAPI, removeMaliciousWebsiteByIdAPI, updateMaliciousWebsiteAPI} 
+import { addMaliciousWebsiteAPI, getAllMaliciousWebsitesAPI, getMaliciousWebsiteByIdAPI, removeMaliciousWebsiteByIdAPI, updateMaliciousWebsiteAPI, uploadWebsiteCSVAPI} 
     from '../../../servicos/services';
 import Tabela from "./Tabela";
 import Form from "./Form";
@@ -19,7 +19,30 @@ function MaliciousWebsite(){
     const [objeto, setObjeto] = useState({url : ""});
     const [page, setPage] = useState(1);
     const [carregando, setCarregando] = useState(false);
+    const [selectedFile, setSelectedFile] = useState(null);
 
+    const handleFileChange = (e) => {
+        setSelectedFile(e.target.files[0]);
+      };
+    
+      const handleFileUpload = async () => {
+        if (!selectedFile) {
+          return;
+        }
+    
+        const formData = new FormData();
+        formData.append("file", selectedFile);
+    
+        try {
+          const response = await uploadWebsiteCSVAPI(formData);
+          console.log("File uploaded successfully:", response);
+          setSelectedFile(null);
+          recuperaMaliciousWebsites();
+        } catch (error) {
+          console.error("File upload failed:", error);
+        }
+      };
+    
     const novoObjeto = () => {
         setEditar(false);
         setAlerta({ status: "", message: "" });
@@ -121,7 +144,7 @@ function MaliciousWebsite(){
         <MaliciousWebsiteContext.Provider value={{
             alerta, setAlerta, listaObjetos, remover,
             objeto, editar, acaoCadastrar, 
-            handleChange, novoObjeto, editarObjeto, nextPage, previousPage, page
+            handleChange, novoObjeto, editarObjeto, nextPage, previousPage, page, handleFileChange, handleFileUpload
         }}>
             <Carregando carregando={carregando}>
             <Tabela/>
