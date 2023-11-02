@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import MaliciousProcessContext from "./MaliciousProcessContext";
-import { addMaliciousProcessAPI, getAllMaliciousProcessesAPI, getMaliciousProcessByIdAPI, removeMaliciousProcessByIdAPI, updateMaliciousProcessAPI} 
+import { addMaliciousProcessAPI, getAllMaliciousProcessesAPI, getMaliciousProcessByIdAPI, removeMaliciousProcessByIdAPI, updateMaliciousProcessAPI, uploadProcessCSVAPI} 
     from '../../../servicos/services';
 import Tabela from "./Tabela";
 import Form from "./Form";
@@ -19,7 +19,29 @@ function MaliciousProcess(){
     const [objeto, setObjeto] = useState({nameExe : ""});
     const [carregando, setCarregando] = useState(false);
     const [page, setPage] = useState(1);
+    const [selectedFile, setSelectedFile] = useState(null);
 
+    const handleFileChange = (e) => {
+        setSelectedFile(e.target.files[0]);
+      };
+    
+      const handleFileUpload = async () => {
+        if (!selectedFile) {
+          return;
+        }
+    
+        const formData = new FormData();
+        formData.append("file", selectedFile);
+    
+        try {
+          const response = await uploadProcessCSVAPI(formData);
+          console.log("File uploaded successfully:", response);
+          setSelectedFile(null);
+          recuperaMaliciousProcesses();
+        } catch (error) {
+          console.error("File upload failed:", error);
+        }
+      };
 
     const novoObjeto = () => {
         setEditar(false);
@@ -123,7 +145,7 @@ function MaliciousProcess(){
         <MaliciousProcessContext.Provider value={{
             alerta, setAlerta, listaObjetos, remover,
             objeto, editar, acaoCadastrar, 
-            handleChange, novoObjeto, editarObjeto, nextPage, previousPage, page
+            handleChange, novoObjeto, editarObjeto, nextPage, previousPage, page, handleFileChange, handleFileUpload
         }}>
             <Carregando carregando={carregando}>
             <Tabela/>
