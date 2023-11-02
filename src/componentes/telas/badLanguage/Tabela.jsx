@@ -4,12 +4,14 @@ import Alerta from '../../comuns/Alerta';
 
 function Tabela() {
 
-    const { alerta, listaObjetos, remover, novoObjeto, editarObjeto, previousPage, nextPage, page } = useContext(BadLanguageContext);
+    const { alerta, listaObjetos, remover, novoObjeto, editarObjeto, previousPage, nextPage, page, handleFileUpload, handleFileChange } = useContext(BadLanguageContext);
 
     return (
         <div style={{ padding: '20px' }}>
             <h1>Languages</h1>
             <Alerta alerta={alerta} />
+            <input type="file" accept=".csv" onChange={handleFileChange} />
+            <button className="btn btn-primary" onClick={handleFileUpload}>Upload CSV</button>
             <button type="button" className="btn btn-primary"
                 data-bs-toggle="modal" data-bs-target="#modalEdicao"
                 onClick={() => novoObjeto()}>
